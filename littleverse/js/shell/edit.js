@@ -7,7 +7,7 @@
 // (add, delete, reorder, photos, songs) save at once and confirm with a toast.
 import { worldTitle as __wt } from '../lib/templates.js';
 import { h, ic, emo, screen, navbar, groupHead, groupFoot, group, row, toggle, seg, sheet, confirmSheet, toast, pickFile, haptic, plural } from './kit.js';
-import { avatarBuilder, themePicker, dateField } from './pickers.js';
+import { avatarBuilder, themePicker, notePicker, dateField } from './pickers.js';
 import { poster, posterVars, whenLine } from './poster.js';
 import { db, mediaURL, mediaIds, compressImage, isAsset } from '../lib/db.js';
 import { RELATIONSHIPS, OCCASION_FOR, WORLD_DEFS, SECTORS, recommendedWorlds, relById, occById, themeOf, COLOR_ROLES, FONTS, STARS, fontById, starsById, mapOrder } from '../lib/catalog.js';
@@ -501,7 +501,11 @@ const FILM = {
     const { u, text, form } = ed, C = u.copy.commentary;
     const parts = [['hero', 'The title card'], ['ch1', 'Chapter one'], ['log', 'Mission log'], ['stats', 'The numbers'], ['hill', 'The hill'], ['chords', 'Say it in chords'],
       ['catch', 'Catch the stars'], ['cake', u.copy.film.cake.mode === 'light' ? 'The candles' : 'The cake'], ['letter', 'The letter'], ['epilogue', 'Epilogue'], ['credits', 'Credits']];
+    const lettering = notePicker(u.look && u.look.note, id => { (u.look ||= {}).note = id; ed.save(); });
     return ed.page({ title: 'Director’s commentary', intro: `Little notes from you, the director. ${u.them.name} sees them beside each scene after switching commentary on in the film.`, parent: [ed.E('film'), 'Film'], blocks: [
+      groupHead('Lettering'),
+      lettering,
+      groupFoot('How your notes look in the film.'),
       groupHead('Notes, scene by scene'),
       form(...parts.map(([k, l]) => text(l, C, k, { area: true, max: 300, ph: 'No note here' }))),
       groupFoot('Leave a scene empty and it simply has no note.'),

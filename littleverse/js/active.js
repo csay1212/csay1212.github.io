@@ -63,13 +63,17 @@ export function applyTheme(t) {
   // the big titles' lettering (the film, the map, the ident, the credits)
   if (t.font && t.font.id !== 'marquee') { r.setProperty('--f-marquee', t.font.family); r.setProperty('--f-marquee-w', String(t.font.weight || 400)); }
   else { r.removeProperty('--f-marquee'); r.removeProperty('--f-marquee-w'); }
+  // the director's commentary
+  if (t.note) for (const [k, v] of noteVars(t.note)) r.setProperty(k, v);
   statusBar('night', t.night);
 }
+const NOTE_VARS = ['--f-note', '--f-note-st', '--f-note-w', '--f-note-z', '--f-note-lh'];
+export const noteVars = f => [['--f-note', f.family], ['--f-note-st', f.style || 'normal'], ['--f-note-w', String(f.weight || 400)], ['--f-note-z', f.size + 'px'], ['--f-note-lh', String(f.lh || 1.3)]];
 // The big titles' lettering as a font shorthand, for document.fonts.load() before measuring.
 export const titleFont = (px = 100) => `${px}px ${getComputedStyle(document.documentElement).getPropertyValue('--f-marquee').trim() || 'Italiana'}`;
 export function clearTheme() {
   const r = document.documentElement.style;
-  ['--night', '--night-2', '--dusk', '--horizon', '--rose', '--gold', '--hud', '--mint', '--lilac', '--peach', '--sky', '--paper', '--muted', '--f-marquee', '--f-marquee-w'].forEach(k => r.removeProperty(k));
+  ['--night', '--night-2', '--dusk', '--horizon', '--rose', '--gold', '--hud', '--mint', '--lilac', '--peach', '--sky', '--paper', '--muted', '--f-marquee', '--f-marquee-w', ...NOTE_VARS].forEach(k => r.removeProperty(k));
   statusBar('day');
 }
 

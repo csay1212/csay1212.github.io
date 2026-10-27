@@ -59,7 +59,7 @@ export const THEMES = [
 export const themeById = id => THEMES.find(t => t.id === id) || THEMES[0];
 
 // A universe's own look (u.look) on top of its theme: any of these colors, the
-// lettering of the big titles, and how many stars are in the sky.
+// lettering of the big titles and of the commentary, and how many stars are in the sky.
 export const COLOR_ROLES = [
   ['night', 'Night sky'], ['dusk', 'Twilight'], ['horizon', 'Horizon glow'], ['paper', 'Text'],
   ['gold', 'Gold'], ['rose', 'Rose'], ['hud', 'Mint'], ['lilac', 'Lilac'], ['peach', 'Peach'], ['sky', 'Sky blue'],
@@ -70,8 +70,16 @@ export const FONTS = [
   { id: 'hand', label: 'Handwritten', family: '"Caveat","Segoe Print","Bradley Hand",cursive', weight: 700, scale: 1.08 },
   { id: 'modern', label: 'Modern', family: '"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif', weight: 700, scale: .8 },
 ];
+// Lettering for the director's commentary, the sticky notes beside each scene (size in px).
+export const NOTE_FONTS = [
+  { id: 'storybook', label: 'Storybook', family: '"Cormorant Garamond","Garamond","Times New Roman",serif', style: 'italic', weight: 500, size: 21, lh: 1.28 },
+  { id: 'typed', label: 'Typed', family: '"JetBrains Mono",ui-monospace,"Cascadia Mono",Menlo,monospace', weight: 400, size: 14.5, lh: 1.5 },
+  { id: 'modern', label: 'Modern', family: '"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif', weight: 500, size: 16.5, lh: 1.42 },
+  { id: 'hand', label: 'Handwritten', family: '"Caveat","Segoe Print","Bradley Hand",cursive', weight: 500, size: 22, lh: 1.2 },
+];
 export const STARS = [{ id: 'few', label: 'A few', n: .4 }, { id: 'some', label: 'Some', n: 1 }, { id: 'lots', label: 'Lots', n: 1.8 }, { id: 'galaxy', label: 'A galaxy', n: 2.8 }];
 export const fontById = id => FONTS.find(f => f.id === id) || FONTS[0];
+export const noteFontById = id => NOTE_FONTS.find(f => f.id === id) || NOTE_FONTS[0];
 export const starsById = id => STARS.find(s => s.id === id) || STARS[1];
 
 const HEX = /^#[0-9a-f]{6}$/i;
@@ -90,6 +98,7 @@ export function themeOf(u) {
   if (t.paper !== base.paper || t.horizon !== base.horizon) t.muted = mixHex(t.paper, t.horizon, .4);
   t.custom = COLOR_ROLES.some(([k]) => t[k] !== base[k]);
   t.font = fontById(look.font);
+  t.note = noteFontById(look.note);
   t.stars = starsById(look.stars).n;
   return t;
 }

@@ -1,7 +1,7 @@
 // Offline support for the web version: the app shell is cached on install, and
 // everything else the first time it's used, so a universe keeps working without
 // a connection. Pages and code are refreshed in the background on each visit.
-const CACHE = 'littleverse-v4';
+const CACHE = 'littleverse-v5';
 const CORE = ['./', 'index.html', 'manifest.webmanifest', 'css/fonts.css', 'css/base.css', 'css/app.css',
   'js/main.js', 'js/core/dom.js', 'js/lib/db.js', 'js/lib/catalog.js', 'js/lib/dates.js', 'js/lib/lucide.js',
   'js/shell/kit.js', 'js/shell/native.js', 'js/shell/theme.js', 'js/shell/home.js', 'js/shell/poster.js', 'js/core/cat.js', 'js/core/store.js',

@@ -1,8 +1,8 @@
 // Shared pickers used by the create wizard and the editor:
-// the character builder, the theme picker, and the date field.
+// the character builder, the theme picker, the commentary lettering, and the date field.
 import { h, ic, seg, toggle, haptic } from './kit.js';
 import { catSVG, EYES, MOUTHS, ACCS, DEFAULT_THEM } from '../core/cat.js';
-import { SPECIES, FURS, HATS, THEMES, themeById } from '../lib/catalog.js';
+import { SPECIES, FURS, HATS, THEMES, themeById, NOTE_FONTS, noteFontById } from '../lib/catalog.js';
 
 const svgThumb = (d, prop = true) => catSVG({ ...DEFAULT_THEM, ...d }, { prop });
 const LABEL = {
@@ -120,6 +120,22 @@ export function themePicker(current, onChange) {
       h('span', { class: 'tp-moon', style: { background: t.gold } }),
       h('span', { class: 'tp-hill', style: { background: `linear-gradient(${t.horizon}, ${t.night})` } }),
       h('b', { text: t.label, style: { color: t.paper } }));
+    grid.append(b);
+  }
+  return grid;
+}
+
+/** The director's commentary lettering: a little sticky note written in each font.
+ *  notePicker(current, onChange) */
+export function notePicker(current, onChange) {
+  const cur = noteFontById(current).id;
+  const grid = h('div', { class: 'np', role: 'radiogroup', 'aria-label': 'Commentary lettering' });
+  for (const f of NOTE_FONTS) {
+    const b = h('button', { class: 'np-note', type: 'button', role: 'radio', 'aria-checked': String(f.id === cur),
+      onclick: () => { grid.querySelectorAll('.np-note').forEach(x => x.setAttribute('aria-checked', String(x === b))); haptic('select'); onChange(f.id); } },
+      h('span', { class: 'np-paper', 'aria-hidden': 'true', text: 'My favorite scene. Don’t blink.',
+        style: { fontFamily: f.family, fontStyle: f.style || 'normal', fontWeight: String(f.weight || 400), fontSize: `${+(f.size * .8).toFixed(1)}px`, lineHeight: String(f.lh) } }),
+      h('small', { text: f.label }));
     grid.append(b);
   }
   return grid;

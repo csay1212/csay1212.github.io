@@ -371,6 +371,16 @@ input[type=date].inp{color-scheme:light}
 .tp-stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 70% 20%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 40% 35%,#fffa 50%,transparent 51%),radial-gradient(1.2px 1.2px at 85% 45%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 20% 60%,#fff6 50%,transparent 51%)}
 .tp-dots{display:none}
 .tp-hill{position:absolute;left:-10%;right:-10%;bottom:-30%;height:62%;border-radius:50% 50% 0 0;opacity:.95}
+/* the commentary's lettering: one little sticky note per font, as in the film */
+.np{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 var(--gutter)}
+.np-note{display:grid;justify-items:center;align-content:start;gap:10px;padding:18px 12px 11px;border:0;border-radius:18px;background:var(--surface);color:var(--ink-3);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:box-shadow .15s,transform .15s}
+.np-paper{position:relative;display:flex;align-items:center;width:100%;max-width:150px;min-height:78px;padding:11px 11px 10px 12px;background:#fbf1c8;color:#3a2a14;border-radius:3px;text-align:left;
+  transform:rotate(-1.4deg);box-shadow:0 5px 12px rgba(var(--shadow-rgb),.16)}
+.np-note:nth-child(even) .np-paper{transform:rotate(1.2deg)}
+.np-paper::after{content:"";position:absolute;left:50%;top:-6px;width:40px;height:12px;transform:translateX(-50%) rotate(-3deg);background:rgba(255,255,255,.55);box-shadow:0 0 0 1px rgba(var(--ink-rgb),.05)}
+.np-note small{font-size:12.5px;font-weight:650;letter-spacing:.02em}
+.np-note[aria-checked=true]{color:var(--ink);box-shadow:0 0 0 2px var(--canvas),0 0 0 4px var(--ink)}
+.np-note:active{transform:scale(.97)}
 
 /* ---------- date field (styled button over the native picker) ---------- */
 .datef{display:grid;gap:10px}

@@ -3,7 +3,7 @@
 // the look → which worlds. The draft lives in sessionStorage, so a reload or a
 // quick trip elsewhere doesn't lose anything.
 import { h, ic, emo, screen, input, seg, toggle, confirmSheet, toast, pickFile, haptic } from './kit.js';
-import { avatarBuilder, themePicker, dateField } from './pickers.js';
+import { avatarBuilder, themePicker, notePicker, dateField } from './pickers.js';
 import { poster, posterVars } from './poster.js';
 import { db, settings, compressImage, mediaURL } from '../lib/db.js';
 import { RELATIONSHIPS, OCCASION_FOR, DEFAULT_THEME, WORLD_DEFS, SECTORS, HATS, recommendedWorlds, occById, themeById, themeOf } from '../lib/catalog.js';
@@ -431,7 +431,9 @@ export async function render(ctx) {
     };
     paintPoster(false);
     const picker = themePicker(s.theme, id => { s.theme = id; s.themeTouched = true; update(); paintPoster(true); });
-    return { el: h('div', {}, head('Pick the look', 'Colors for the poster, the film and every world. Tap one to try it on.'), hero, picker) };
+    const notes = notePicker(s.note, id => { s.note = id; update(); });
+    return { el: h('div', {}, head('Pick the look', 'Colors for the poster, the film and every world. Tap one to try it on.'), hero, picker,
+      h('div', { class: 'cw-sec' }, h('b', { text: 'Director’s commentary' }), h('small', { text: 'The lettering for your notes in the film' })), notes) };
   }
 
   /* ---------- 6. worlds ---------- */
@@ -489,6 +491,7 @@ export async function render(ctx) {
     const u = newUniverse({ rel: s.rel, occ: s.occ, them, me, date: s.date, yearKnown: s.yearKnown, theme: s.theme || DEFAULT_THEME[s.rel], themAvatar: s.themAvatar, meAvatar: s.meAvatar });
     u.studio = studioName(me);
     u.them.photo = s.photo || null;
+    if (s.note) u.look = { note: s.note };
     u.worlds = { ...recommendedWorlds(s.rel, s.occ), ...(s.worlds || {}) };
     try { await db.put(u); }
     catch (e) { console.error(e); done = false; cta.disabled = false; toast('Couldn’t save. Try again.', { icon: 'info' }); return; }

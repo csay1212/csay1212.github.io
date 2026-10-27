@@ -86,7 +86,9 @@
 .film .cm-note{display:none}
 .film.commentary .cm-note{display:block}
 .film .cm-note{position:relative;justify-self:start;max-width:330px;margin:4px 0 2px;padding:14px 16px 14px 18px;background:#fbf1c8;color:#3a2a14;border-radius:3px;transform:rotate(-1.2deg);
-  font-family:var(--f-hand);font-size:22px;line-height:1.2;box-shadow:0 10px 24px rgba(0,0,0,.35);animation:noteIn .45s cubic-bezier(.3,1.5,.5,1);text-align:left}
+  font-family:var(--f-note,var(--f-body));font-style:var(--f-note-st,italic);font-weight:var(--f-note-w,500);font-size:var(--f-note-z,21px);line-height:var(--f-note-lh,1.28);text-wrap:pretty;box-shadow:0 10px 24px rgba(0,0,0,.35);animation:noteIn .45s cubic-bezier(.3,1.5,.5,1);text-align:left}
+/* the glow that keeps the film's words readable on the sky (base.css) only smudges them on paper */
+.film .cm-note,.film .cm-note *{text-shadow:none!important}
 .film .cm-note::after{content:"";position:absolute;left:50%;top:-8px;width:62px;height:16px;transform:translateX(-50%) rotate(-3deg);background:color-mix(in srgb,var(--paper) 55%,transparent)}
 .film .hill-block .cm-note,.film .catch-block .cm-note,.film .letter-block .cm-note{transform:rotate(1.1deg)}
 @keyframes noteIn{from{opacity:0;transform:translateY(-10px) rotate(-6deg)}}
