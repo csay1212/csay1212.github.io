@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Privacy policy · Littleverse</title>
 <meta name="description" content="How Littleverse handles your information: universes stay on your device, no accounts, no analytics. The Android app shows ads from Google AdMob.">
-<meta name="theme-color" content="#edf0f4">
-<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#edf0f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1220" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/fonts.css">
@@ -17,6 +18,10 @@
     --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
     --sans:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--canvas:#0e1220; --surface:#171c2b; --ink:#e8ebf2; --ink-2:#b3bacb; --ink-3:#8b93a7;
+      --rule:rgba(232,235,242,.09); --rule-2:rgba(232,235,242,.2); color-scheme:dark}
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}

@@ -25,6 +25,7 @@ function warmPlay() {
 import { ic, closeSheets, hasSheet, haptic } from './shell/kit.js';
 import { initNative, setHaptics, statusBar, isAndroidApp } from './shell/native.js';
 import { themeOf } from './lib/catalog.js';
+import { initTheme } from './shell/theme.js';
 
 const app = document.getElementById('app');
 const bg = h('div', { class: 'lv-bg', 'aria-hidden': 'true' });
@@ -59,10 +60,13 @@ async function lightsDown(color) {
 function lightsOff() { if (ld) ld.classList.remove('on'); }
 function lightsOnNow() { const el = lightsLayer(); el.style.transition = 'none'; el.classList.add('on'); void el.offsetWidth; el.style.transition = ''; }
 
-/* ---------- first run: install the examples ---------- */
+/* ---------- first run: install the examples, then the tour ---------- */
+// The tour shows once, on a fresh install (or after Erase everything), and again from
+// You → How Littleverse works. 'pending' survives closing the app halfway through it.
 async function seed() {
   const s = settings.get();
   if (s.seeded) return;
+  if (!s.tour) settings.set({ tour: 'pending' });
   const have = new Set((await db.all()).map(u => u.id));
   const { demoUniverses } = await import('./lib/demo.js');
   for (const d of demoUniverses()) if (!have.has(d.id)) await db.put(d, { touch: false });
@@ -161,12 +165,35 @@ function teardown() {
   cur = null;
 }
 
+async function firstTour() {
+  if (settings.get().tour !== 'pending') return;
+  try { await (await import('./shell/tour.js')).openTour(); }
+  catch (e) { console.error(e); }
+  settings.set({ tour: 'done' });
+}
+
+// Once the first screen is up, fetch the other screens while the phone is idle, so the
+// first tap on Inbox, You, New or a universe opens it at once.
+function prefetchScreens() {
+  const go = () => { for (const r of ROUTES) r[3]().catch(() => {}); };
+  if (window.requestIdleCallback) requestIdleCallback(go, { timeout: 4000 }); else setTimeout(go, 1500);
+}
+
 /* ---------- boot ---------- */
+initTheme();
 setHaptics(settings.get().haptics !== false);
-initNative({ onBack: () => { if (hasSheet()) { closeSheets(); return true; } return false; } });
+// Android's back button closes the tour (it's loaded by then), then a sheet, then goes back.
+const onBack = () => {
+  if (document.querySelector('.lv-tour:not(.closing)')) { import('./shell/tour.js').then(m => m.dismiss()); return true; }
+  if (hasSheet()) { closeSheets(); return true; }
+  return false;
+};
+initNative({ onBack });
 addEventListener('hashchange', route);
 db.onChange(() => paintBadge());
-seed().then(upgradeSongs).catch(e => console.error(e)).then(() => { route(); paintBadge(); startMonetize(); });
+// Ads (and Google's consent form) wait for the tour, so the first thing a new person sees is
+// the app, not a dialog.
+seed().then(upgradeSongs).catch(e => console.error(e)).then(() => { route(); paintBadge(); prefetchScreens(); return firstTour(); }).then(startMonetize);
 // After the first screen is up: the web and iPhone versions never load any of it.
 function startMonetize() {
   if (!isAndroidApp()) return;

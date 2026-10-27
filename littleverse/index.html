@@ -17,6 +17,9 @@
      since iOS 26 that blurs the top of the screen, headers included. -->
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Littleverse">
+<!-- Light or dark before the first paint, so the app never opens in the wrong color
+     (js/shell/theme.js keeps it in step afterwards). -->
+<script>try{var t=JSON.parse(localStorage.getItem('lv-settings')||'{}').theme;if(t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');document.querySelector('meta[name=theme-color]').content='#0e1220';document.querySelector('meta[name=color-scheme]').content='dark'}}catch(e){}</script>
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/app.css">
@@ -30,6 +33,7 @@
 <link rel="modulepreload" href="js/lib/lucide.js">
 <link rel="modulepreload" href="js/shell/kit.js">
 <link rel="modulepreload" href="js/shell/native.js">
+<link rel="modulepreload" href="js/shell/theme.js">
 <link rel="modulepreload" href="js/shell/home.js">
 <link rel="modulepreload" href="js/shell/poster.js">
 <link rel="modulepreload" href="js/core/cat.js">

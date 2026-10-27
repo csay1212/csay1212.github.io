@@ -5,6 +5,7 @@ import { db, settings, mediaIds } from '../lib/db.js';
 import { demoUniverses } from '../lib/demo.js';
 import { fmtSize } from '../lib/gift.js';
 import { setHaptics, isAndroidApp } from './native.js';
+import { themePref, setTheme } from './theme.js';
 
 const VERSION = '1.1';
 
@@ -33,6 +34,11 @@ export async function render(ctx) {
   paintName();
   blocks.push(h('button', { class: 'st-me', type: 'button', 'aria-label': 'Edit your name', onclick: () => { haptic('light'); nameSheet(paintName); } },
     mono, h('span', { class: 'st-me-main' }, nm, h('small', { text: 'Your name on new universes, as in “a film by …”' })), ic('chevron-right', 's chev')));
+
+  // ---------- appearance ----------
+  blocks.push(groupHead('Appearance'));
+  blocks.push(appearance());
+  blocks.push(groupFoot('Automatic follows your phone’s light or dark setting. A universe always plays at night.'));
 
   // ---------- sound and touch ----------
   blocks.push(groupHead('Sound and touch'));
@@ -66,6 +72,7 @@ export async function render(ctx) {
   blocks.push(groupHead('About'));
   blocks.push(group(
     row({ icon: 'info', tint: '#5b5390', title: 'Version', value: VERSION, chevron: false }),
+    row({ title: 'How Littleverse works', sub: 'The short tour from the first time you opened it', onclick: () => import('./tour.js').then(m => m.openTour()) }),
     row({ icon: 'lock', tint: '#2f8f83', title: 'Privacy', sub: isAndroidApp() ? 'Your universes stay on this phone' : 'Everything stays on this phone', onclick: privacySheet }),
     row({ icon: 'scroll-text', tint: '#b0802a', title: 'Open-source credits', sub: 'Emoji, icons, fonts and music', onclick: creditsSheet })));
 
@@ -77,6 +84,20 @@ export async function render(ctx) {
   blocks.push(h('div', { class: 'st-colophon' }, h('img', { src: 'assets/icon.svg', alt: '' }), h('span', { class: 'st-word', text: 'Littleverse' }), h('small', { text: `Version ${VERSION}. ${isAndroidApp() ? 'Your universes stay' : 'Everything stays'} on this phone.` })));
 
   return { el: screen({ tabs: ctx.tabs, anim: ctx.anim, cls: 'st-scr' }, ...blocks), title: 'You' };
+}
+
+// Three small previews of the workshop: the phone's setting, daylight, after hours.
+function appearance() {
+  const wrap = h('div', { class: 'group st-looks', role: 'radiogroup', 'aria-label': 'Appearance' });
+  const paint = v => wrap.querySelectorAll('.st-look').forEach(b => b.setAttribute('aria-checked', String(b.dataset.v === v)));
+  for (const [v, label] of [['system', 'Automatic'], ['light', 'Light'], ['dark', 'Dark']]) {
+    wrap.append(h('button', { class: 'st-look', type: 'button', role: 'radio', 'data-v': v,
+      onclick: () => { if (themePref() === v) return; haptic('select'); paint(v); setTheme(v); } },
+      h('span', { class: 'st-look-art ' + v, 'aria-hidden': 'true' }, h('i'), h('i'), h('i')),
+      h('span', { class: 'st-look-l', text: label })));
+  }
+  paint(themePref());
+  return wrap;
 }
 
 async function mediaSize(all) {

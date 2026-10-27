@@ -55,20 +55,23 @@ function blobToBase64(blob) {
   return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
 }
 
-// The workshop is daylight (dark status-bar text on paper); a playing universe
-// is night (light text on its sky). Also keeps the browser's theme-color in step.
-// On Android the page is drawn edge to edge, so the bars show the page itself and
-// only their icons change colour (the Bars plugin in the Android project).
+// The workshop is daylight (dark status-bar text on paper), or after hours in the dark
+// theme (light text on deep ink); a playing universe is night (light text on its sky).
+// Also keeps the browser's theme-color in step. On Android the page is drawn edge to
+// edge, so the bars show the page itself and only their icons change colour (the Bars
+// plugin in the Android project).
 export const DAY = '#edf0f4';
+export const AFTER_HOURS = '#0e1220';
 const quiet = p => { if (p && p.catch) p.catch(() => {}); };
 export function statusBar(mode = 'day', color) {
-  const bg = color || (mode === 'day' ? DAY : '#0c0b24');
+  const dark = mode !== 'day' || document.documentElement.classList.contains('dark');
+  const bg = color || (mode !== 'day' ? '#0c0b24' : dark ? AFTER_HOURS : DAY);
   try { document.querySelector('meta[name=theme-color]')?.setAttribute('content', bg); } catch {}
   try {
     const Bars = plugin('Bars');
-    if (Bars) { quiet(Bars.setStyle({ dark: mode !== 'day', color: bg })); return; }
+    if (Bars) { quiet(Bars.setStyle({ dark, color: bg })); return; }
     const SB = plugin('StatusBar');
-    if (SB) quiet(SB.setStyle({ style: mode === 'day' ? 'LIGHT' : 'DARK' }));
+    if (SB) quiet(SB.setStyle({ style: dark ? 'DARK' : 'LIGHT' }));
   } catch {}
 }
 
