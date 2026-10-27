@@ -1,0 +1,304 @@
+/* The film: a feature in reels (title card, chapter one, chapter two, the letter,
+   the epilogue, credits, post-credits). Phone first; colors are theme roles.
+   Printed, not lit: the name is set in the marquee face, everything else is
+   book type, and gold is used like foil. */
+.film{--gut:max(20px,var(--safe-l));--gap:clamp(64px,16vw,104px);overflow-x:clip}
+.film main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 var(--gut) calc(150px + var(--safe-b))}
+.film .lede{font-size:19.5px;line-height:1.55;color:color-mix(in srgb,var(--paper) 90%,transparent)}
+.film .lede strong{color:var(--gold);font-weight:600;font-style:normal}
+.film .act{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.film .act .hint{flex:1 1 180px;font-size:17px;line-height:1.38}
+
+/* ---------- reel bar (top): current chapter + progress ---------- */
+.film .reel-top{position:fixed;left:0;right:0;top:0;z-index:15;height:calc(38px + var(--safe-t));padding:var(--safe-t) 16px 0;display:grid;place-items:center;pointer-events:none;
+  background:var(--night);border-bottom:1px solid var(--line);transform:translateY(-102%);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.film .reel-top.on{transform:none;opacity:1}
+.film .reel-now{display:flex;align-items:baseline;justify-content:center;gap:6px;min-width:0;max-width:100%;font-family:var(--f-body);font-style:italic;font-size:17px;line-height:1;white-space:nowrap;
+  transition:opacity .16s,transform .16s}
+.film .reel-now.swap{opacity:0;transform:translateY(-3px)}
+.film .reel-now .rk{color:var(--muted);flex:none}
+.film .reel-now .rk::after{content:":";color:var(--muted)}
+.film .reel-now .rt{color:var(--paper);overflow:hidden;text-overflow:ellipsis;min-width:0}
+.film .reelbar{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:transparent}
+.film .reelfill{position:absolute;inset:0;transform-origin:0 50%;transform:scaleX(0);background:var(--gold)}
+.film .reelbar .tick{position:absolute;top:-1px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:color-mix(in srgb,var(--paper) 35%,transparent);transition:background .3s}
+.film .reelbar .tick.past{background:var(--paper)}
+
+/* ---------- title card ---------- */
+.film .hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;gap:clamp(16px,2.7vh,24px);min-height:100vh;min-height:100svh;align-content:center;
+  padding:calc(28px + var(--safe-t)) 0 calc(96px + var(--safe-b))}
+.film .hero .halo{display:none}
+.film .scope{display:grid;gap:5px;font-family:var(--f-ui);font-size:11px;font-weight:650;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);line-height:1.35;
+  padding:12px 18px 12px calc(18px + .28em);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);max-width:100%}
+.film .scope span{overflow-wrap:break-word}
+.film .scope b{color:var(--gold);font-weight:700}
+.film .title{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:4px;line-height:.92;width:100%}
+.film .title .occ{font-family:var(--f-body);font-style:italic;font-weight:500;font-size:clamp(26px,7.4vw,40px);letter-spacing:0;text-transform:none;color:var(--paper);line-height:1.1;text-wrap:balance;max-width:100%}
+.film .title .who-name{display:block;width:100%;font-family:var(--f-marquee);font-weight:var(--f-marquee-w,400);font-size:clamp(84px,26vw,200px);color:var(--gold);letter-spacing:.02em;line-height:.98;padding-block:.06em;text-wrap:balance;overflow-wrap:break-word;
+  cursor:default;-webkit-user-select:none;user-select:none;outline-offset:6px}
+.film .title .who-name.wiggle{animation:wig .5s ease-out}
+@keyframes wig{25%{transform:rotate(-3deg) scale(1.04)}60%{transform:rotate(2deg)}}
+.film .late{font-style:italic;font-size:clamp(20px,5.4vw,25px);line-height:1.38;color:var(--muted);max-width:30ch;text-wrap:balance}
+.film .late strong{color:var(--paper);font-style:normal;font-weight:600}
+.film .duo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:start;gap:6px;width:100%;max-width:520px;margin-top:4px}
+.film .duo figure{margin:0;display:grid;justify-items:center;gap:12px;min-width:0}
+.film .portrait{width:min(34vw,164px);aspect-ratio:1;border-radius:50%;overflow:hidden;position:relative;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--pbg) 78%,#fff 10%),var(--pbg));
+  border:2px solid color-mix(in srgb,var(--paper) 80%,transparent);box-shadow:0 0 0 5px color-mix(in srgb,var(--paper) 8%,transparent),0 18px 34px rgba(0,0,0,.35);animation:bob 5s ease-in-out infinite}
+.film .portrait.me{animation-delay:-2.5s}
+.film .portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.film .portrait .av{position:absolute;left:10%;right:10%;top:11%}
+.film .portrait .av svg{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3))}
+.film .duo figcaption{display:grid;gap:4px;line-height:1;max-width:100%}
+.film .duo figcaption .nm{font-family:var(--f-hand);font-size:clamp(27px,7.6vw,34px);line-height:1;color:var(--paper);overflow-wrap:break-word;text-wrap:balance}
+.film .duo figcaption small{font-family:var(--f-body);font-style:italic;font-size:16px;letter-spacing:0;line-height:1.3;text-transform:none;color:var(--muted);text-wrap:balance}
+.film .duo .amp{font-family:var(--f-body);font-style:italic;font-size:clamp(34px,9vw,48px);color:color-mix(in srgb,var(--paper) 50%,transparent);align-self:center;margin-top:-34px;padding-inline:2px}
+@keyframes bob{50%{transform:translateY(-7px)}}
+.film .cta{display:grid;gap:12px;justify-items:stretch;width:min(100%,330px);margin-top:6px}
+.film .cta .btn{width:100%}
+.film .cta .extras{display:flex;justify-content:center}
+.film .cta .arr{display:inline-block;font-family:var(--f-ui);font-size:18px;line-height:0;animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(3px)}}
+.film .extras{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.film .chip-toggle{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);
+  font-family:var(--f-ui);font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;text-decoration:none;transition:color .2s,border-color .2s}
+.film .chip-toggle:hover{color:var(--paper);border-color:var(--line-2)}
+.film .chip-toggle .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;flex:none}
+.film .chip-toggle[aria-pressed=true]{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+.film .chip-toggle[aria-pressed=true] .dot{background:var(--gold)}
+/* short screens: the title card tightens so its buttons stay clear of the dock */
+.film .hero.tight{gap:13px;padding-top:calc(18px + var(--safe-t))}
+.film .hero.tight .scope{padding-block:8px;font-size:10px}
+.film .hero.tight .title .occ{font-size:clamp(22px,6vw,30px)}
+.film .hero.tight .late{font-size:clamp(18px,4.9vw,21px)}
+.film .hero.tight .portrait{width:min(28vw,124px)}
+.film .hero.tight .duo figure{gap:9px}
+.film .hero.tight .duo figcaption .nm{font-size:clamp(24px,6.6vw,28px)}
+.film .hero.tight .duo .amp{margin-top:-26px;font-size:34px}
+.film .hero.tighter{gap:10px;padding-top:calc(12px + var(--safe-t))}
+.film .hero.tighter .portrait{width:min(24vw,100px)}
+.film .hero.tighter .duo figcaption small{display:none}
+.film .hero.tighter .duo .amp{margin-top:-14px}
+.film .hero.tighter .late{font-size:17px}
+.film .hero.tighter .btn.big{min-height:50px;padding-block:10px}
+.film .hero.tighter .cta{margin-top:2px;gap:10px}
+
+/* ---------- director's commentary: a sticky note ---------- */
+.film .cm-note{display:none}
+.film.commentary .cm-note{display:block}
+.film .cm-note{position:relative;justify-self:start;max-width:330px;margin:4px 0 2px;padding:14px 16px 14px 18px;background:#fbf1c8;color:#3a2a14;border-radius:3px;transform:rotate(-1.2deg);
+  font-family:var(--f-hand);font-size:22px;line-height:1.2;box-shadow:0 10px 24px rgba(0,0,0,.35);animation:noteIn .45s cubic-bezier(.3,1.5,.5,1);text-align:left}
+.film .cm-note::after{content:"";position:absolute;left:50%;top:-8px;width:62px;height:16px;transform:translateX(-50%) rotate(-3deg);background:color-mix(in srgb,var(--paper) 55%,transparent)}
+.film .hill-block .cm-note,.film .catch-block .cm-note,.film .letter-block .cm-note{transform:rotate(1.1deg)}
+@keyframes noteIn{from{opacity:0;transform:translateY(-10px) rotate(-6deg)}}
+.film .hero .cm-note,.film .chapter .cm-note,.film .credits .cm-note,.film .letter-block .cm-note{justify-self:center}
+@media (min-width:1240px){
+  .film.commentary [data-cm]{position:relative}
+  .film.commentary [data-cm] > .cm-note{position:absolute;right:-300px;top:10px;width:260px;margin:0}
+}
+
+/* ---------- chapter cards: intertitles ---------- */
+.film .chapter{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;gap:10px;padding:var(--gap) 0 8px}
+.film .reel-k{display:flex;align-items:center;gap:14px;font-family:var(--f-body);font-style:italic;font-size:19px;letter-spacing:0;text-transform:none;color:var(--muted);width:100%;max-width:300px}
+.film .reel-k::before,.film .reel-k::after{content:"";flex:1;height:1px;background:var(--line-2)}
+.film .chapter .season{font-family:var(--f-marquee);font-weight:var(--f-marquee-w,400);font-size:clamp(60px,18vw,132px);line-height:.98;letter-spacing:.04em;padding-left:.04em;color:var(--paper);text-wrap:balance;max-width:100%;overflow-wrap:break-word}
+.film .chapter.c1 .season{color:var(--gold)}
+.film .chapter.c2 .season{color:var(--rose)}
+.film .chapter .sub{font-style:italic;color:var(--muted);font-size:21px;line-height:1.38;max-width:26ch;text-wrap:balance}
+
+/* ---------- content blocks ---------- */
+.film .block{display:grid;gap:14px;margin-top:var(--gap);min-width:0}
+.film .chapter + .block{margin-top:48px}
+.film .block h3{font-size:clamp(34px,9.4vw,48px);line-height:1.04;text-wrap:balance}
+
+/* ---------- mission log: a logbook page ---------- */
+.film .hudbox{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:16px 18px 18px;position:relative;margin-top:4px}
+.film .hud-head{display:flex;justify-content:space-between;gap:6px 12px;flex-wrap:wrap;font-family:var(--f-ui);font-size:12.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);
+  padding-bottom:11px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+.film .log{display:grid;gap:11px}
+.film .lrow{display:grid;grid-template-columns:4.9em minmax(0,1fr);gap:12px;align-items:baseline}
+.film .lrow .d{font-family:var(--f-ui);font-size:12.5px;font-weight:650;letter-spacing:.01em;color:var(--gold);font-variant-numeric:tabular-nums;overflow-wrap:break-word}
+.film .lrow .t{font-size:18.5px;line-height:1.4;color:var(--paper)}
+.film .lrow .warn{color:var(--peach)}
+.film .lrow .ok{color:var(--gold)}
+.film .cursor{display:none}
+
+/* ---------- by the numbers ---------- */
+.film .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 16px;margin-top:2px}
+.film .stat{border-top:1px solid var(--line-2);padding-top:14px;display:grid;gap:4px;align-content:start;min-width:0}
+.film .stat b{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 7px;font-family:var(--f-display);font-weight:600;color:var(--gold);line-height:1.02}
+.film .stat .num{font-size:clamp(34px,9.6vw,46px);font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.01em;overflow-wrap:break-word}
+.film .stat b small{font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:0;color:color-mix(in srgb,var(--gold) 80%,var(--paper))}
+.film .stat .l{font-size:17px;line-height:1.32;color:var(--muted)}
+.film .stats-block > .lede{margin-top:8px}
+@media (min-width:760px){ .film .stats{grid-template-columns:repeat(4,minmax(0,1fr))} .film .stats.odd{grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+/* ---------- the hill ---------- */
+.film .stage{position:relative;width:100%;height:clamp(420px,118vw,500px);border-radius:18px;overflow:hidden;border:1px solid var(--line);margin-top:6px;isolation:isolate;
+  --cs:clamp(88px,26vw,128px);--gy:90px;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (min-width:760px){ .film .stage{height:480px} }
+.film .scene-svg,.film .scene-svg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.film .stage-caption{position:absolute;left:14px;right:14px;top:12px;display:flex;justify-content:space-between;gap:4px 10px;flex-wrap:wrap;z-index:3;
+  font-family:var(--f-body);font-style:italic;font-size:16px;letter-spacing:0;text-transform:none;color:color-mix(in srgb,var(--paper) 82%,transparent);pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.film .shadow{position:absolute;bottom:calc(var(--gy) - 8px);width:calc(var(--cs) * .7);height:12px;border-radius:50%;background:rgba(0,0,0,.45);filter:blur(3px);z-index:1;transition:transform 2.4s cubic-bezier(.45,0,.2,1),opacity 2.4s}
+.film .shadow.l{left:calc(50% - 4px - var(--cs) * .85)}
+.film .shadow.r{left:calc(50% + 4px + var(--cs) * .15)}
+.film .stage[data-mode=float] .shadow{transform:scale(.45);opacity:.25}
+.film .pair{position:absolute;left:50%;bottom:var(--gy);width:0;height:0;z-index:2;transition:transform 2.4s cubic-bezier(.45,0,.2,1)}
+.film .pair > .spin{position:absolute;left:0;top:0;width:0;height:0}
+.film .slot{position:absolute;left:0;top:0;width:var(--cs);transition:transform 2.4s cubic-bezier(.45,0,.2,1)}
+.film .slot.l{transform:translate(calc(-100% - 4px),-96%)}
+.film .slot.r{transform:translate(4px,-96%)}
+.film .who svg{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 12px rgba(0,0,0,.35))}
+.film .who{transform-origin:50% 100%}
+.film .pair.dance .slot.l .who{animation:hopL .76s ease-in-out infinite}
+.film .pair.dance .slot.r .who{animation:hopR .76s ease-in-out infinite}
+.film.gentle .pair.dance .slot.l .who,.film.gentle .pair.dance .slot.r .who{animation-duration:1.4s}
+@keyframes hopL{0%,100%{transform:rotate(-7deg) translateY(0)}25%{transform:rotate(0) translateY(-16px)}50%{transform:rotate(7deg) translateY(0)}75%{transform:rotate(0) translateY(-6px)}}
+@keyframes hopR{0%,100%{transform:rotate(7deg) translateY(-6px)}25%{transform:rotate(0) translateY(0)}50%{transform:rotate(-7deg) translateY(-16px)}75%{transform:rotate(0) translateY(0)}}
+.film .pair.dance .cat-svg .prop{animation:propSpin .7s linear infinite}
+.film .pair.float{transform:translateY(calc(-1 * clamp(130px,36vw,180px)))}
+.film .pair.float .slot.l{transform:translate(calc(-100% - 10px),-50%)}
+.film .pair.float .slot.r{transform:translate(10px,-50%)}
+.film .pair.float .spin{animation:orbit 9s linear infinite}
+.film .pair.float .who{animation:orbit 9s linear infinite reverse;transform-origin:50% 50%}
+.film .pair.float .cat-svg .prop{animation:propSpin .18s linear infinite}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.film .spark{position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:4;animation:spark 1s ease-out forwards}
+.film .spark.r{background:var(--rose)}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+.film .tapnote{position:absolute;bottom:calc(var(--gy) + 4px);z-index:3;font-size:18px;line-height:1;color:var(--gold);pointer-events:none;animation:noteUp 1.2s ease-out forwards}
+.film .tapnote.l{left:calc(50% - var(--cs) * .55)}
+.film .tapnote.r{left:calc(50% + var(--cs) * .45);color:var(--rose)}
+@keyframes noteUp{from{opacity:0;transform:translateY(0) scale(.6)}20%{opacity:1}to{opacity:0;transform:translateY(-70px) rotate(14deg)}}
+
+/* ---------- translator ---------- */
+.film .translator{display:grid;gap:12px;padding:18px;border-radius:16px;border:1px solid var(--line);background:var(--card);margin-top:6px}
+.film .translator label{font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)}
+.film .translator input{width:100%;min-height:52px;background:color-mix(in srgb,var(--night) 70%,transparent);border:1px solid var(--line-2);color:var(--paper);
+  font-family:var(--f-ui);font-size:17px;padding:12px 16px;border-radius:12px;outline:none;transition:border-color .2s}
+.film .translator input:focus{border-color:color-mix(in srgb,var(--paper) 60%,transparent)}
+.film .bars{display:flex;gap:3px;height:96px;align-items:flex-end;padding:12px;border-radius:12px;background:rgba(0,0,0,.2);border:1px solid var(--line);overflow:hidden}
+.film .bar{flex:1 1 0;max-width:16px;min-width:3px;border-radius:3px 3px 1px 1px;background:var(--c);opacity:.5;transition:opacity .15s,transform .15s;transform-origin:bottom}
+.film .bar.rest{background:color-mix(in srgb,var(--paper) 20%,transparent);height:3px;opacity:1}
+.film .bar.on{opacity:1;transform:scaleY(1.15)}
+.film .translated{font-family:var(--f-body);font-style:italic;font-size:18px;line-height:1.45;color:var(--muted);min-height:1.45em}
+
+/* ---------- star catch ---------- */
+.film .catch-wrap{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:6px;
+  background:radial-gradient(120% 90% at 50% 110%,color-mix(in srgb,var(--horizon) 50%,transparent),color-mix(in srgb,var(--night) 75%,transparent) 70%)}
+.film #film-catch{display:block;width:100%;height:clamp(340px,92vw,380px);cursor:crosshair;touch-action:manipulation}
+.film .fuel{position:absolute;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:12px;font-family:var(--f-ui);font-size:12.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--paper);pointer-events:none}
+.film .fuel .track{flex:1;height:5px;background:color-mix(in srgb,var(--paper) 14%,transparent);border-radius:3px;overflow:hidden}
+.film .fuel .fill{height:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--gold);transition:transform .4s}
+.film .wishes{list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:640px){ .film .wishes{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.film .wishes li{display:grid;grid-template-columns:2.1em minmax(0,1fr);gap:8px;align-items:baseline;padding:11px 14px;border:1px solid var(--line);border-radius:12px;font-size:18px;line-height:1.38;min-width:0;
+  background:var(--card)}
+.film .wishes li b{font-family:var(--f-ui);font-size:12.5px;color:var(--gold);font-weight:700;font-variant-numeric:tabular-nums}
+.film .wishes li.locked{color:color-mix(in srgb,var(--muted) 60%,transparent);font-style:italic;font-size:16.5px;border-style:dashed;background:none}
+.film .wishes li.locked b{color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.film .wishes li.new{animation:pop .7s ease-out;border-color:color-mix(in srgb,var(--gold) 40%,transparent)}
+.film .wishes li.locked:not(.next){opacity:.6}
+.film .wishes li.locked.next{border-color:color-mix(in srgb,var(--gold) 30%,transparent);color:color-mix(in srgb,var(--paper) 62%,transparent)}
+.film .wishes li.more{display:block;border:0;background:none;padding:4px 14px 0;text-align:center;font-family:var(--f-body);font-style:italic;font-size:17px;letter-spacing:0;text-transform:none;color:var(--muted)}
+@media (min-width:640px){ .film .wishes li.more{grid-column:1/-1} }
+@keyframes pop{0%{background:color-mix(in srgb,var(--gold) 22%,transparent)}100%{background:var(--card)}}
+
+/* ---------- cake ---------- */
+.film .cake-block > .kicker{text-align:center}
+@media (min-width:760px){ .film .cake-block > .kicker{text-align:left} }
+.film .cake-area{display:grid;grid-template-columns:1fr;gap:10px;align-items:center}
+@media (min-width:760px){ .film .cake-area{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px} }
+.film .cake-art{width:100%;max-width:420px;justify-self:center}
+.film .cake-svg{width:100%;height:auto;display:block;overflow:visible}
+.film .cake-svg .halo{opacity:0;transition:opacity 1.2s}
+.film .cake-block.all-lit .cake-svg .halo{opacity:.7}
+.film .candle{cursor:pointer;outline:none}
+.film .candle:focus-visible .hit{stroke:var(--gold);stroke-width:2;stroke-dasharray:4 4}
+.film .candle .flame,.film .candle .core{transform-box:fill-box;transform-origin:50% 100%;animation:flick .35s ease-in-out infinite alternate}
+.film .candle:nth-child(2n) .flame,.film .candle:nth-child(2n) .core{animation-duration:.45s}
+.film .candle .glow{transition:opacity .4s}
+.film .candle.out .flame,.film .candle.out .core,.film .candle.out .glow,.film .candle.off .flame,.film .candle.off .core,.film .candle.off .glow{opacity:0;transition:opacity .3s}
+.film .candle .smoke{opacity:0}
+.film .candle.out .smoke{animation:smoke 1.6s ease-out forwards}
+.film .candle.off line{stroke-width:2.4}
+.film .candle.ignite .flame{animation:ignite .5s cubic-bezier(.3,1.6,.5,1),flick .35s .5s ease-in-out infinite alternate}
+.film .candle.wobble .flame,.film .candle.wobble .core{animation:wob .12s ease-in-out infinite alternate}
+.film .cake-block.light .candle.off .hit{fill:transparent}
+.film .cake-block.light:not(.all-lit) .candle.off line{animation:wick 1.8s ease-in-out infinite}
+@keyframes wick{50%{stroke:var(--gold)}}
+@keyframes ignite{from{transform:scale(.1,.1)}}
+@keyframes wob{from{transform:skewX(-14deg) scale(.95,.9)}to{transform:skewX(14deg) scale(.9,1.05)}}
+@keyframes flick{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.9,1.12) rotate(3deg)}}
+@keyframes smoke{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+.film .cake-msg{display:grid;gap:12px;text-align:center;justify-items:center}
+@media (min-width:760px){ .film .cake-msg{text-align:left;justify-items:start} }
+.film .cake-msg .count{font-family:var(--f-body);font-style:italic;font-size:19px;letter-spacing:0;text-transform:none;color:var(--gold)}
+.film .cake-msg .big{font-family:var(--f-display);font-weight:600;font-size:clamp(32px,8.6vw,46px);line-height:1.06;text-wrap:balance}
+.film .cake-msg .lede{color:var(--muted);max-width:34ch;text-wrap:balance}
+.film .cake-msg .act{justify-content:center;margin-top:4px}
+@media (min-width:760px){ .film .cake-msg .act{justify-content:flex-start} }
+.film .micmeter{height:6px;width:min(100%,280px);border-radius:3px;background:color-mix(in srgb,var(--paper) 14%,transparent);overflow:hidden}
+.film .micmeter i{display:block;height:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--gold);transition:transform .06s linear}
+
+/* ---------- letter ---------- */
+.film .letter-block{justify-items:center}
+.film .letter-block > .kicker{text-align:center}
+.film .letter{background:#fbf6ee;color:var(--ink);padding:30px 24px 26px;border-radius:4px;width:100%;max-width:640px;margin:6px auto 0;
+  box-shadow:0 30px 70px rgba(0,0,0,.45);transform:rotate(-.5deg);display:grid;gap:16px;font-size:20px;line-height:1.55;position:relative}
+.film .letter p{white-space:pre-line;overflow-wrap:break-word}
+.film .letter .to{font-family:var(--f-hand);font-size:38px;color:#7a2a52;line-height:1}
+.film .letter .sig{font-family:var(--f-hand);font-size:34px;color:#7a2a52;text-align:right;line-height:1.05;margin-top:4px}
+.film .letter .stamp{justify-self:end;font-family:var(--f-ui);font-size:10px;font-weight:650;letter-spacing:.14em;line-height:1.5;text-transform:uppercase;color:#7a6a95;border:1px solid #cfc6dd;padding:5px 9px;text-align:right;max-width:100%}
+@media (min-width:640px){ .film .letter{padding:52px 56px 44px;font-size:21px} .film .letter .to{font-size:42px} }
+
+/* ---------- epilogue ---------- */
+.film .timelines{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:640px){ .film .timelines{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.film .tl{border:1px solid var(--line);border-radius:16px;padding:20px 18px;display:grid;gap:14px;align-content:start;background:var(--card);min-width:0}
+.film .tl h4{margin:0;font-family:var(--f-display);font-size:23px;line-height:1.1;letter-spacing:0;text-transform:none;font-weight:600;color:var(--paper)}
+.film .tl.tl-b{border-color:color-mix(in srgb,var(--gold) 32%,transparent)}
+.film .tl.tl-b h4{color:var(--gold)}
+.film .tl.tl-a{opacity:.88}
+.film .tl ol{list-style:none;margin:0;padding:0;display:grid;gap:14px;position:relative}
+.film .tl li{display:grid;gap:3px;padding-left:18px;position:relative;font-size:18px;line-height:1.38}
+.film .tl li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,var(--muted) 60%,transparent)}
+.film .tl li:not(:last-child)::after{content:"";position:absolute;left:3px;top:18px;bottom:-12px;width:1px;background:var(--line-2)}
+.film .tl.tl-b li::before{background:var(--rose)}
+.film .tl li span{font-family:var(--f-ui);font-size:12.5px;font-weight:650;letter-spacing:.01em;text-transform:none;color:var(--muted);font-variant-numeric:tabular-nums}
+.film .tl.tl-b li span{color:var(--rose)}
+.film .closing{text-align:center;font-style:italic;font-size:23px;line-height:1.38;max-width:28ch;margin:12px auto 0;color:var(--paper);text-wrap:balance}
+.film .tl-redeem{text-align:center;font-family:var(--f-ui);font-size:15px;font-weight:600;letter-spacing:0;line-height:1.5;text-transform:none}
+.film .tl-redeem a{display:inline-block;padding:10px 4px;color:var(--rose);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--rose) 45%,transparent);text-underline-offset:4px;text-wrap:balance;max-width:34ch}
+
+/* ---------- credits ---------- */
+.film .credits{text-align:center;display:grid;gap:30px;padding:calc(var(--gap) + 30px) 0 20px;justify-items:center}
+.film .credits .cr{display:grid;gap:6px;max-width:100%}
+.film .credits .role{font-family:var(--f-ui);font-size:10.5px;font-weight:650;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);padding-left:.26em}
+.film .credits .name{font-family:var(--f-marquee);font-weight:var(--f-marquee-w,400);font-size:clamp(30px,8.4vw,44px);line-height:1.1;text-wrap:balance;overflow-wrap:break-word}
+.film .credits .name.long{font-size:clamp(24px,6.4vw,32px)}
+.film .credits .name.xlong{font-size:clamp(20px,5.2vw,26px)}
+.film .credits .note{font-style:italic;color:var(--muted);font-size:18px;line-height:1.38}
+.film .credits .disclaimer{font-style:italic;color:color-mix(in srgb,var(--muted) 85%,transparent);font-size:17px;line-height:1.42;max-width:30ch;text-wrap:balance;margin-top:10px}
+.film .credits .end{font-family:var(--f-marquee);font-weight:var(--f-marquee-w,400);font-size:clamp(56px,16vw,90px);line-height:1;color:var(--gold);letter-spacing:.16em;padding-left:.16em}
+.film .credits .cta{width:min(100%,330px)}
+.film .credits .cm-note{justify-self:center}
+
+/* ---------- post-credits ---------- */
+.film .postcredits{display:grid;justify-items:center;text-align:center;gap:18px;padding:64px 0 10px;margin-top:56px;position:relative}
+.film .postcredits::before{content:"";position:absolute;top:0;left:50%;width:min(200px,50%);height:1px;transform:translateX(-50%);background:var(--line-2)}
+.film .postcredits h2{font-size:clamp(42px,11.5vw,68px);line-height:1;color:var(--paper);text-wrap:balance}
+.film .postcredits .lede{max-width:40ch;color:var(--muted);text-wrap:pretty}
+.film .pc-launch{display:grid;justify-items:center;gap:10px;margin-top:6px;width:min(100%,330px);position:relative}
+.film .pc-launch .btn{width:100%}
+.film .pc-cat{width:118px;animation:hover 3s ease-in-out infinite;pointer-events:none;position:relative;z-index:1}
+.film .pc-cat svg{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 20px rgba(0,0,0,.45))}
+.film .pc-trail{position:absolute;top:96px;left:50%;width:3px;height:40px;margin-left:-1.5px;border-radius:3px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--paper) 50%,transparent),transparent);animation:trail 3s ease-in-out infinite}
+@keyframes hover{50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes trail{50%{transform:translateY(-12px) scaleY(1.3);opacity:.6}}
+
+.film .duo figcaption,.film .duo figcaption *{text-wrap:balance}
+
+/* paused while scrolled out of view (film.js toggles .idle) */
+.film main > .idle,.film main > .idle *{animation-play-state:paused!important}

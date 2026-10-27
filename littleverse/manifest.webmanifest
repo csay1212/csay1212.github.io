@@ -1,0 +1,44 @@
+{
+  "name": "Littleverse",
+  "short_name": "Littleverse",
+  "description": "Make a little universe for someone: a film, games, letters and a sky full of stars, made just for them.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#edf0f4",
+  "theme_color": "#edf0f4",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./#/inbox",
+      "accept": {
+        "application/json": [
+          ".littleverse"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+/* The Mixtape */
+.mx{--pi:color-mix(in srgb,var(--dusk) 72%,#0b0910);--pm:color-mix(in srgb,var(--dusk) 48%,#8f8899);--pp:color-mix(in srgb,var(--paper) 55%,#fffdf8);--pr:color-mix(in srgb,var(--rose) 60%,var(--pi))}
+.mx-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:30px;align-items:start}
+.mx-left{display:grid;gap:16px;justify-items:center;min-width:0}
+.mx-deck{width:100%;max-width:520px;padding:18px;border-radius:22px;background:linear-gradient(160deg,color-mix(in srgb,var(--dusk) 80%,var(--night-2)),var(--night-2));border:1px solid var(--line-2);
+  box-shadow:0 30px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08)}
+.mx-tape{transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.mx-tape.playing{transform:rotate(-1.2deg)}
+.mx-svg{width:100%;height:auto;display:block;filter:drop-shadow(0 12px 16px rgba(0,0,0,.45))}
+.mx-info{display:grid;justify-items:center;text-align:center;gap:4px;min-width:0;max-width:100%}
+.mx-side{font-family:var(--f-mono);font-size:13px;letter-spacing:0;line-height:1.5;color:var(--muted);text-wrap:balance;font-weight:600}
+.mx-artist{font-family:var(--f-body);font-style:italic;font-size:19px;line-height:1.3;color:var(--muted)}
+.mx-now{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,9vw,46px);line-height:1.05;color:var(--lilac);text-wrap:balance;overflow-wrap:anywhere}
+.mx-seek{width:100%;max-width:520px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;font-size:13px;color:var(--muted)}
+.mx-seek .mono{min-width:3.2em;text-align:center;font-variant-numeric:tabular-nums}
+.mx-bar{-webkit-appearance:none;appearance:none;width:100%;height:44px;margin:0;background:linear-gradient(90deg,var(--lilac) var(--p,0%),color-mix(in srgb,var(--paper) 14%,transparent) var(--p,0%)) center/100% 6px no-repeat;border-radius:3px;cursor:pointer;touch-action:pan-y}
+.mx-bar::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--paper);border:3px solid var(--lilac);cursor:pointer}
+.mx-bar::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--lilac);cursor:pointer}
+.mx-ctrls{display:flex;align-items:center;gap:22px}
+.mx-skip{width:52px;height:52px}
+.mx-play{width:72px;height:72px;border-radius:50%;border:0;background:var(--lilac);color:var(--night);display:grid;place-items:center;transition:transform .15s}
+@media (hover:hover){ .mx-play:hover{transform:scale(1.05)} }
+.mx-play:active{transform:scale(.95)}
+.mx-play svg{width:28px;height:28px;fill:currentColor;stroke:none}
+.mx-ctrls .icon-btn svg{fill:currentColor;stroke:none}
+.mx-vu{display:flex;gap:4px;align-items:flex-end;height:38px;width:100%;max-width:340px;justify-content:center}
+.mx-vu i{flex:1;max-width:12px;height:4px;border-radius:2px;background:linear-gradient(0deg,var(--hud),var(--gold) 70%,var(--signal));opacity:.35;transition:opacity .3s}
+.mx-vu.on i{opacity:1;animation:vu var(--d) ease-in-out var(--o) infinite alternate}
+@keyframes vu{0%{height:6%}30%{height:72%}55%{height:38%}80%{height:94%}100%{height:22%}}
+.mx-pencil{min-height:44px;font-size:11px}
+
+/* the J-card */
+.mx-jcard{position:relative;background:var(--pp);color:var(--pi);border-radius:6px;padding:26px 22px 22px;box-shadow:0 30px 70px rgba(0,0,0,.45);display:grid;gap:12px;transform:rotate(1deg);min-width:0;
+}
+.mx-jcard::before{content:"";position:absolute;inset:8px;border:1px solid color-mix(in srgb,var(--rose) 30%,transparent);border-radius:3px;pointer-events:none}
+.mx-jk{font-family:var(--f-mono);font-size:12.5px;letter-spacing:0;color:var(--pr);margin:0;font-weight:600}
+.mx-jcard h3{font-family:var(--f-hand);font-weight:700;font-size:clamp(34px,9vw,40px);line-height:1;color:var(--pi);margin:0;overflow-wrap:break-word;padding-right:30px}
+.mx-for{font-style:italic;color:var(--pm);font-size:18px;line-height:1.35;margin:0;padding-right:30px}
+.mx-list{list-style:none;margin:6px 0 0;padding:10px 0 0;display:grid;gap:2px;border-top:1px dashed color-mix(in srgb,var(--pm) 55%,transparent)}
+.mx-list button{width:100%;min-height:56px;display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left;padding:8px 10px;border:0;border-radius:10px;background:transparent;color:var(--pi);font:inherit;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){ .mx-list button:hover{background:color-mix(in srgb,var(--lilac) 16%,transparent)} }
+.mx-list button.cur{background:color-mix(in srgb,var(--lilac) 24%,transparent)}
+.mx-n{font-family:var(--f-mono);font-size:12px;color:var(--pm)}
+.mx-t{font-family:var(--f-display);font-size:24px;line-height:1.1;display:grid;min-width:0}
+.mx-t > span{overflow-wrap:anywhere}
+.mx-t small{font-family:var(--f-mono);font-size:12.5px;letter-spacing:0;color:var(--pm);margin-top:3px;font-weight:600}
+.mx-eq{color:color-mix(in srgb,var(--lilac) 60%,var(--pi));opacity:0}
+.mx-list button.cur .mx-eq{opacity:1}
+.mx-notebox{display:grid;gap:6px;background:#fff;border-radius:8px;padding:14px 16px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--pm) 25%,transparent);margin-top:6px}
+.mx-notebox[hidden]{display:none}
+.mx-note{font-family:var(--f-hand);font-size:25px;line-height:1.2;color:var(--pi);min-height:2.4em;margin:0}
+
+/* a blank tape */
+.mx-tape.blank .mx-svg{filter:drop-shadow(0 12px 16px rgba(0,0,0,.45)) saturate(.85)}
+.mx-empty{display:grid;justify-items:center;text-align:center;gap:10px;width:100%;max-width:520px;padding:6px 10px 4px}
+.mx-empty img{width:64px;height:64px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+.mx-empty h3{font-family:var(--f-display);font-weight:400;font-size:clamp(28px,7.6vw,36px);line-height:1.08;margin:0}
+.mx-empty p{color:var(--muted);font-size:18px;line-height:1.45;max-width:32ch;margin:0 0 6px}
+.mx-empty .btn svg{width:16px;height:16px;fill:currentColor;stroke:none}
+.mx-blank{display:grid;gap:12px;margin-top:6px;padding-top:12px;border-top:1px dashed color-mix(in srgb,var(--pm) 55%,transparent)}
+.mx-blank i{display:block;height:22px;border-bottom:1px solid color-mix(in srgb,var(--pm) 35%,transparent)}
+.mx-blank .mx-jk + i{margin-top:-6px}
+.mx-blank i + .mx-jk{margin-top:8px}
+
+@media (max-width:820px){
+  .mx-grid{grid-template-columns:1fr;gap:28px}
+  .mx-jcard{transform:none}
+}
+@media (max-width:420px){
+  .mx-deck{padding:12px;border-radius:18px}
+  .mx-play{width:68px;height:68px}
+}

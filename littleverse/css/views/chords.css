@@ -1,0 +1,131 @@
+/* Call & Response: five crystals, a translator HUD, and a friend from another star */
+.ch{max-width:1100px;margin:0 auto;padding:8px;position:relative;--ch-err:#ff5a4e}
+.ch-safe{position:absolute;left:0;top:0;width:1px;height:var(--safe-b);visibility:hidden;pointer-events:none}
+.ch-stage{--ch-ink:color-mix(in srgb,var(--hud) 28%,#fff);background:radial-gradient(120% 90% at 50% 105%,color-mix(in srgb,var(--dusk) 82%,var(--lilac)) 0%,var(--night-2) 45%,color-mix(in srgb,var(--night) 78%,#000) 100%)}
+.ch-stars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ch-starcv{position:absolute;inset:0;width:100%;height:100%}
+.ch-stars i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;animation:chTw 4s ease-in-out infinite}
+@keyframes chTw{50%{opacity:.1}}
+
+.ch-grid{position:absolute;inset:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:10px;padding:12px}
+.ch-stage.wide .ch-grid{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr) auto auto minmax(0,1fr);gap:14px 22px;padding:14px 14px 14px 22px}
+.ch-stage.wide .ch-hud{grid-column:1;grid-row:2}
+.ch-stage.wide .ch-fieldbox{grid-column:2;grid-row:1 / span 4}
+.ch-stage.wide .ch-ctrl{grid-column:1;grid-row:3}
+
+/* ---------- the translator HUD ---------- */
+.ch-hud{position:relative;border:1px solid color-mix(in srgb,var(--hud) 42%,transparent);background:linear-gradient(180deg,color-mix(in srgb,var(--hud) 11%,var(--night)),color-mix(in srgb,var(--hud) 6%,var(--night)));border-radius:10px;
+  padding:12px 14px 14px;font-family:var(--f-mono);color:var(--hud);overflow:hidden;display:grid;gap:6px;min-width:0;
+  box-shadow:inset 0 0 34px color-mix(in srgb,var(--hud) 7%,transparent)}
+.ch-hud::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,color-mix(in srgb,var(--hud) 7%,transparent) 0 1px,transparent 1px 3px);pointer-events:none}
+.ch-hud::after{content:"";position:absolute;left:0;right:0;top:0;height:30%;background:linear-gradient(180deg,color-mix(in srgb,var(--hud) 0%,transparent),color-mix(in srgb,var(--hud) 7%,transparent),color-mix(in srgb,var(--hud) 0%,transparent));
+  transform:translateY(-100%);animation:chScan 5s linear infinite;pointer-events:none;will-change:transform}
+@keyframes chScan{to{transform:translateY(340%)}}
+.ch-hud .peek{z-index:4}
+.ch-hud-top{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;letter-spacing:0;opacity:.7;white-space:nowrap;font-weight:600}
+.ch-hud-top span:first-child{overflow:hidden;text-overflow:ellipsis}
+.ch-link{display:inline-flex;align-items:center;gap:6px}
+.ch-link i{width:7px;height:7px;border-radius:50%;background:var(--hud);animation:blink 1.6s steps(1) infinite}
+.ch-status{font-size:14.5px;letter-spacing:0;min-height:1.4em;font-weight:600}
+.ch-status.rx{color:var(--gold)}
+.ch-status.ok{color:var(--hud)}
+.ch-status.err{color:var(--ch-err)}
+.ch-phrase{font-size:clamp(15px,2.2vw,19px);line-height:1.4;color:var(--ch-ink);min-height:2.8em}
+.ch-cursor{display:inline-block;width:8px;height:1em;background:var(--hud);vertical-align:-2px;margin-left:3px;animation:blink 1s steps(1) infinite}
+.ch-meta{font-size:12.5px;letter-spacing:0;opacity:.75;font-variant-numeric:tabular-nums;font-weight:600}
+.ch-wave{display:flex;gap:5px;align-items:flex-end;height:16px;margin-top:2px}
+.ch-wave i{flex:1;height:16px;border-radius:2px;background:var(--c);opacity:.3;transform:scaleY(.19);transform-origin:50% 100%;transition:transform .25s ease-out,opacity .25s}
+.ch-wave i.on{transform:none;opacity:1;transition:transform .05s,opacity .05s}
+
+/* ---------- the crystal field ---------- */
+.ch-fieldbox{min-height:0;min-width:0;display:grid;place-items:center}
+.ch-field{position:relative;--pad:110px}
+.ch-pad{position:absolute;width:var(--pad);height:var(--pad);transform:translate(-50%,-50%);border:0;padding:0;background:none;border-radius:50%;
+  -webkit-tap-highlight-color:transparent;touch-action:none;cursor:pointer;-webkit-user-select:none;user-select:none}
+.ch-pad:focus-visible{outline-offset:-4px;border-radius:50%}
+.ch-gem{position:absolute;inset:6%;display:block;transform:rotate(var(--rot,0deg));transition:transform .35s cubic-bezier(.3,1.6,.5,1);will-change:transform}
+.ch-gem svg{width:100%;height:100%;display:block;overflow:visible}
+.ch-shadow{position:absolute;left:18%;right:18%;bottom:-2%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.5),rgba(0,0,0,0));pointer-events:none}
+.ch-glow{position:absolute;inset:-22%;border-radius:50%;background:radial-gradient(closest-side,var(--c),transparent);opacity:.22;transition:opacity .45s,transform .45s;pointer-events:none}
+.ch-flare{position:absolute;inset:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.9),rgba(255,255,255,.35) 45%,rgba(255,255,255,0));opacity:0;transition:opacity .4s;pointer-events:none}
+.ch-k{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:color-mix(in srgb,var(--paper) 55%,transparent);
+  border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:color-mix(in srgb,var(--night) 60%,transparent);pointer-events:none}
+.ch-pad.lit .ch-gem{transform:rotate(var(--rot,0deg)) scale(1.08);transition:transform .06s}
+.ch-pad.lit .ch-glow{opacity:.95;transform:scale(1.18);transition:opacity .06s,transform .06s}
+.ch-pad.lit .ch-flare{opacity:.7;transition:opacity .05s}
+.ch-pad.wrong .ch-gem{animation:chShake .45s ease-in-out}
+.ch-pad.wrong .ch-glow{background:radial-gradient(closest-side,var(--ch-err),transparent);opacity:.6}
+.ch-pad.nudge .ch-gem{animation:chNudge .3s ease-out}
+.ch-pad.key .ch-gem{transform:rotate(var(--rot,0deg)) scale(.96)}
+@keyframes chShake{20%{transform:rotate(var(--rot,0deg)) translateX(-6px)}40%{transform:rotate(var(--rot,0deg)) translateX(6px)}60%{transform:rotate(var(--rot,0deg)) translateX(-4px)}80%{transform:rotate(var(--rot,0deg)) translateX(3px)}}
+@keyframes chNudge{40%{transform:rotate(calc(var(--rot,0deg) + 5deg)) scale(.97)}}
+.ch-stage:not(.listening) .ch-pad .ch-gem{animation:chFloat 5s ease-in-out infinite;animation-delay:var(--fl,0s)}
+.ch-stage:not(.listening) .ch-pad.wrong .ch-gem{animation:chShake .45s ease-in-out}
+.ch-stage:not(.listening) .ch-pad.nudge .ch-gem{animation:chNudge .3s ease-out}
+@keyframes chFloat{50%{translate:0 -4px}}
+.ch-stage.listening .ch-pad{cursor:default}
+
+.ch-core{position:absolute;left:50%;top:53%;width:calc(var(--pad) * .82);height:calc(var(--pad) * .82);transform:translate(-50%,-50%);border-radius:50%;
+  display:grid;place-content:center;justify-items:center;text-align:center;border:1px solid color-mix(in srgb,var(--hud) 35%,transparent);background:radial-gradient(circle,color-mix(in srgb,var(--hud) 12%,transparent),color-mix(in srgb,var(--night) 60%,transparent) 70%);
+  font-family:var(--f-mono);color:var(--hud);pointer-events:none}
+.ch-core b{font-size:calc(var(--pad) * .24);font-weight:600;line-height:1;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--ch-ink)}
+.ch-core span{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.7;margin-top:4px}
+.ch-core i{position:absolute;inset:-8px;border-radius:50%;border:1px solid color-mix(in srgb,var(--hud) 25%,transparent)}
+.ch-core i + i{inset:-18px;border-style:dashed;border-color:color-mix(in srgb,var(--hud) 14%,transparent);animation:spin 40s linear infinite}
+.ch-core.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--hud);animation:chPing .7s ease-out forwards}
+@keyframes chPing{from{transform:scale(.9);opacity:.9}to{transform:scale(1.9);opacity:0}}
+.ch-stage.inputting .ch-core{border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+.ch-stage.inputting:not(.zen) .ch-core span{color:var(--gold)}
+
+/* ---------- controls ---------- */
+.ch-ctrl{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;justify-content:center;min-width:0}
+.ch-stage.wide .ch-ctrl{justify-content:flex-start}
+.ch-actions{display:contents}
+.ch-ctrl .seg button{height:44px;padding:0 16px}
+.ch-actions .btn{min-height:44px}
+.ch-tape{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;width:100%}
+.ch-stage.wide .ch-tape{justify-content:flex-start}
+.ch-tape i{width:10px;height:10px;padding:0;flex:none;border-radius:50%;background:var(--c);transition:transform .15s}
+.ch-tape i.blank{background:none;box-shadow:none;border:1px dashed color-mix(in srgb,var(--muted) 30%,transparent)}
+.ch-tape i.on{transform:scale(1.6)}
+
+/* ---------- overlays ---------- */
+.ch-ov{background:color-mix(in srgb,var(--night) 90%,transparent)}
+.ch-card{gap:11px;background:color-mix(in srgb,var(--hud) 7%,var(--night-2));border-color:color-mix(in srgb,var(--hud) 35%,transparent)}
+.ch-card h3{color:var(--ch-ink)}
+.ch-card p.fine{font-size:11px;line-height:1.5;color:color-mix(in srgb,var(--muted) 85%,transparent)}
+.ch-card p.kicker{font-size:11px;line-height:1.4}
+.ch-card p.ch-goal{color:var(--gold)}
+.ch-card > p:not(.fine):not(.kicker){font-size:17px}
+.ch-card .btn.small{min-height:44px;padding:8px 18px}
+.ch-card .btn.big{min-width:min(100%,260px)}
+.ch-dust{font-family:var(--f-mono)!important;font-size:14px!important;color:var(--gold)!important;letter-spacing:.06em}
+
+/* a mistake makes the whole HUD glitch for a moment */
+.ch-stage.glitch .ch-hud{animation:chGlitch .5s steps(2) 1}
+@keyframes chGlitch{25%{transform:translateX(-3px);filter:hue-rotate(140deg)}50%{transform:translateX(3px)}75%{transform:translateX(-1px);filter:hue-rotate(-60deg)}}
+
+/* ---------- small and short screens ---------- */
+@media (max-width:420px){
+  .ch-hud{padding:10px 12px 12px}
+  .ch-phrase{min-height:2.8em;font-size:15px}
+  .ch-grid{padding:10px;gap:8px}
+  .ch-ctrl .seg button{padding:0 13px}
+}
+.ch-stage.short .ch-hud{gap:4px;padding:10px 12px}
+.ch-stage.short .ch-wave,.ch-stage.short:not(.wide) .ch-hud-top{display:none}
+.ch-stage.short .ch-grid{gap:8px}
+.ch-stage.short .ch-phrase{min-height:2.6em;font-size:14px}
+.ch-stage.short .ch-ctrl{gap:6px}
+.ch-stage.short .ch-actions .btn{min-height:44px;padding:6px 12px}
+@media (max-height:520px){
+  .ch-card{gap:6px;padding:12px 16px;width:min(560px,100%)}
+  .ch-card h3{font-size:28px}
+  .ch-card > p.kicker,.ch-card > p:not(.fine):not(.kicker):not(.ch-dust){display:none}
+  .ch-card .btn.big{min-height:44px;padding:8px 20px}
+  .ch-ov{padding:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ch-stage .ch-pad .ch-gem{animation:none!important}
+  .ch-hud::after{display:none}
+}

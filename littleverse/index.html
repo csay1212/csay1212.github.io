@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Littleverse</title>
+<meta name="description" content="Make a little universe for someone: a film, games, letters and a sky full of stars, made just for them.">
+<meta name="theme-color" content="#edf0f4">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- iPhone Home Screen app: keep iOS's solid status bar. iOS tints it to match the page (its
+     theme-color and background), which goes night while a universe plays. Not "black-translucent":
+     since iOS 26 that blurs the top of the screen, headers included. -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Littleverse">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/cormorant-garamond-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="modulepreload" href="js/main.js">
+<link rel="modulepreload" href="js/core/dom.js">
+<link rel="modulepreload" href="js/lib/db.js">
+<link rel="modulepreload" href="js/lib/catalog.js">
+<link rel="modulepreload" href="js/lib/dates.js">
+<link rel="modulepreload" href="js/lib/lucide.js">
+<link rel="modulepreload" href="js/shell/kit.js">
+<link rel="modulepreload" href="js/shell/native.js">
+<link rel="modulepreload" href="js/shell/home.js">
+<link rel="modulepreload" href="js/shell/poster.js">
+<link rel="modulepreload" href="js/core/cat.js">
+<link rel="modulepreload" href="js/core/store.js">
+</head>
+<body>
+<div id="app" aria-live="off"></div>
+<div id="play" hidden></div>
+<noscript><p style="padding:40px;text-align:center;font-family:system-ui;color:#121a2e">Littleverse needs JavaScript turned on.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

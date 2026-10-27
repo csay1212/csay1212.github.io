@@ -1,0 +1,19 @@
+/* =====================================================================
+   Room for the AdMob banner, in the Android app only: js/monetize/ads.js
+   adds this file, so the web and iPhone versions never load it.
+   The banner is a native view drawn over the page, just above the system
+   navigation bar, and only on the tab screens. While it's there, <html>
+   has .lv-ad and --ad-h (its height). The tab bar then sits on a quiet
+   paper tray that holds the ad, so the tabs, toasts and the end of each
+   screen all stay above it. With a sheet open, the ad steps aside but
+   the tray stays, so nothing jumps behind the dimmed page.
+   ===================================================================== */
+html.lv-ad{--ad-tray:calc(var(--ad-h,0px) + 6px)}
+/* --tabbar is how much of the bottom the tab bar takes: the screens' bottom padding and
+   the toast's position follow it. */
+html.lv-ad #app,html.lv-ad .lv-toast{--tabbar:calc(58px + var(--safe-b) + var(--ad-tray))}
+html.lv-ad .tabbar{padding-bottom:calc(var(--safe-b) + var(--ad-tray))}
+/* The tray: page paper under a hairline, a little space above the ad so it doesn't touch
+   the tabs, and the same paper on under the navigation bar. */
+html.lv-ad .tabbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(var(--safe-b) + var(--ad-tray));
+  background:var(--canvas);border-top:1px solid var(--rule);pointer-events:none}

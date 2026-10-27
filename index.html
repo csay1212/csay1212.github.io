@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>piney</title>
+<meta name="description" content="Small apps by piney, including Littleverse: make a little universe for someone.">
+<meta name="theme-color" content="#edf0f4">
+<meta name="color-scheme" content="light">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="littleverse/assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="littleverse/css/fonts.css">
+<style>
+  :root{
+    --canvas:#edf0f4; --surface:#fff; --ink:#121a2e; --ink-2:#4a5367; --ink-3:#737c90;
+    --rule:rgba(18,26,46,.09); --rule-2:rgba(18,26,46,.17);
+    --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --sans:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:42rem;margin:0 auto;padding:calc(env(safe-area-inset-top) + 28px) max(20px, env(safe-area-inset-right)) calc(env(safe-area-inset-bottom) + 56px) max(20px, env(safe-area-inset-left))}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(38px, 9vw, 52px);line-height:1.02;letter-spacing:-.012em;margin:40px 0 10px}
+  .lede{margin:0;color:var(--ink-3);font-size:15px}
+  .card{background:var(--surface);border-radius:18px;padding:22px;margin:32px 0 0}
+  .app{display:flex;align-items:center;gap:14px;margin:0 0 12px}
+  .app img{width:56px;height:56px;border-radius:14px}
+  .app h2{font-family:"Italiana",Georgia,serif;font-weight:400;font-size:30px;line-height:1;margin:0}
+  p{margin:0 0 14px;color:var(--ink-2)}
+  .links{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+  .btn{display:inline-block;border-radius:999px;padding:9px 18px;font-weight:600;font-size:15.5px;text-decoration:none;color:var(--ink);background:var(--canvas)}
+  .btn.primary{background:var(--ink);color:#fff}
+  .btn:hover{box-shadow:inset 0 0 0 1.5px var(--rule-2)}
+  a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--rule-2);text-decoration-thickness:1.5px;text-underline-offset:3px;overflow-wrap:anywhere}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:6px}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);color:var(--ink-3);font-size:14.5px}
+  footer p{color:var(--ink-3)}
+</style>
+</head>
+<body>
+<main class="page">
+<h1>piney</h1>
+<p class="lede">Small, gentle apps.</p>
+
+<section class="card">
+  <div class="app"><img src="littleverse/assets/icon.svg" alt=""><h2>Littleverse</h2></div>
+  <p>Make a little universe for someone: a short film about them, games, letters to open at the right moment, a coupon book and a sky full of stars, made for one person and sent as a gift.</p>
+  <p>No accounts and no servers: your universes stay on your phone.</p>
+  <div class="links">
+    <a class="btn primary" href="littleverse/">Open Littleverse</a>
+    <a class="btn" href="littleverse/privacy.html">Privacy policy</a>
+  </div>
+</section>
+
+<footer>
+  <p>Contact: <a href="mailto:piney91026@gmail.com">piney91026@gmail.com</a></p>
+</footer>
+</main>
+</body>
+</html>

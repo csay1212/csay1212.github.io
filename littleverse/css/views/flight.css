@@ -1,0 +1,91 @@
+/* Propeller Flight Academy */
+.fl-wrap{display:grid;place-items:center;padding:12px}
+.fl-stage{border-radius:18px;background:color-mix(in srgb,var(--night-2) 65%,var(--dusk));max-width:100%}
+.fl-canvas{outline:none;cursor:pointer;touch-action:none}
+
+/* ---------- HUD ---------- */
+.fl-hud{text-shadow:0 1px 8px color-mix(in srgb,var(--night) 65%,transparent)}
+.fl-hg{display:flex;align-items:flex-start;gap:clamp(14px,3vw,30px)}
+.fl-st{display:grid;line-height:1.1}
+.fl-st span{font-size:10.5px;letter-spacing:.18em;opacity:.85}
+.fl-st b{font-size:24px}
+.fl-st.r{text-align:right}
+.fl-hud .fl-pause{pointer-events:auto;width:44px;height:44px;margin-top:-2px;background:color-mix(in srgb,var(--night) 55%,transparent)}
+
+/* ---------- overlay cards ---------- */
+.fl-ov{background:color-mix(in srgb,var(--night) 50%,transparent)}
+.fl-card{gap:12px;width:min(460px,100%)}
+.fl-card .fl-k{margin-bottom:-4px}
+.fl-start .fl-t{font-size:clamp(30px,5.4vw,40px)}
+.fl-pilot{display:flex;align-items:center;justify-content:center;gap:16px}
+.fl-pilot-cat{position:relative;width:96px;flex:none;animation:flHover 3.2s ease-in-out infinite}
+.fl-pilot-cat svg{position:relative;z-index:5;width:100%;height:auto;display:block;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45));pointer-events:none}
+.fl-pilot-cat .peek{z-index:1}
+@keyframes flHover{50%{transform:translateY(-7px) rotate(-3deg)}}
+.fl-pilot-txt{display:grid;justify-items:start;text-align:left;line-height:1.15;min-width:0}
+.fl-pilot-txt b{font-family:var(--f-hand);font-size:32px;font-weight:700;color:var(--paper);overflow-wrap:anywhere}
+.fl-pilot-txt b.long{font-size:26px;line-height:1.02;margin:2px 0}
+.fl-pilot-txt a{display:inline-flex;align-items:center;min-height:44px;font-family:var(--f-mono);font-size:13px;letter-spacing:0;color:var(--rose);text-decoration:none;font-weight:600}
+.fl-pilot-txt a:hover{color:var(--gold)}
+.fl-card .fl-how{font-size:18px;line-height:1.4;color:var(--paper);opacity:.9}
+.fl-card .fl-txt{font-size:18px;line-height:1.4;color:var(--muted)}
+.fl-keys span{align-self:center}
+.fl-card .fl-meta{font-family:var(--f-mono);font-size:13px;letter-spacing:0;color:var(--gold);font-weight:600}
+.fl-go{min-width:210px}
+
+.fl-score{display:grid;justify-items:center;gap:2px}
+.fl-card .fl-unit{font-family:var(--f-mono);font-size:14.5px;letter-spacing:0;color:var(--muted);font-weight:600}
+.fl-rtxt{display:grid;justify-items:center;gap:10px}
+.fl-card .fl-line{font-size:18px;line-height:1.4;color:var(--paper);font-style:italic}
+.fl-card .fl-earn{display:grid;gap:3px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--gold)}
+.fl-earn b{font-size:15px;font-weight:600;letter-spacing:.08em}
+.fl-earn span{color:var(--muted);font-size:13px;letter-spacing:0;font-weight:600}
+.fl-btns{gap:10px;width:100%;flex-wrap:nowrap}
+.fl-btns .btn{flex:1 1 0;min-width:0;padding:10px 12px;letter-spacing:.1em}
+
+/* ---------- short stages (phones in landscape) ---------- */
+.fl-stage.short .fl-ov{padding:10px}
+.fl-stage.short .fl-card{gap:8px;padding:14px 18px;border-radius:16px}
+.fl-stage.short .fl-start{width:min(640px,100%);grid-template-columns:auto minmax(0,1fr);column-gap:22px;text-align:left;justify-items:start;align-items:center;
+  grid-template-areas:"pilot k" "pilot t" "pilot keys" "pilot meta" "pilot go"}
+.fl-stage.short .fl-start .fl-k{grid-area:k}
+.fl-stage.short .fl-start .fl-t{grid-area:t;font-size:28px}
+.fl-stage.short .fl-start .fl-pilot{grid-area:pilot;flex-direction:column;gap:2px}
+.fl-stage.short .fl-start .fl-pilot-cat{width:76px}
+.fl-stage.short .fl-start .fl-pilot-txt{text-align:center;justify-items:center}
+.fl-stage.short .fl-start .fl-pilot-txt b{font-size:24px}
+.fl-stage.short .fl-start .fl-pilot-txt b.long{font-size:19px;max-width:120px}
+.fl-stage.short .fl-start .fl-how{display:none}
+.fl-stage.short .fl-start .fl-keys{grid-area:keys;justify-content:flex-start}
+.fl-stage.short .fl-start .fl-meta{grid-area:meta}
+.fl-stage.short .fl-start .fl-go{grid-area:go;min-height:46px;padding:10px 22px}
+.fl-stage.short .fl-res{width:min(600px,100%);grid-template-columns:auto minmax(0,1fr);column-gap:22px;grid-template-areas:"k k" "t t" "score txt" "btns btns"}
+.fl-stage.short .fl-res .fl-k{grid-area:k}
+.fl-stage.short .fl-res .fl-t{grid-area:t;font-size:28px}
+.fl-stage.short .fl-res .fl-score{grid-area:score}
+.fl-stage.short .fl-res .fl-rtxt{grid-area:txt;justify-items:start;text-align:left;gap:6px}
+.fl-stage.short .fl-res .fl-btns{grid-area:btns}
+.fl-stage.short .fl-card h3{font-size:28px}
+.fl-stage.short .fl-card .fl-line,.fl-stage.short .fl-card .fl-txt{font-size:16px}
+.fl-stage.short .fl-card .fl-meta,.fl-stage.short .fl-card .fl-earn{font-size:11px}
+
+/* ---------- narrow phones ---------- */
+.fl-stage.narrow .ghud{left:10px;right:8px;top:8px}
+.fl-stage.narrow .fl-st b{font-size:21px}
+.fl-stage.narrow .fl-st span{font-size:9.5px;letter-spacing:.14em}
+.fl-stage.narrow .fl-card{padding:22px 16px}
+.fl-stage.narrow .fl-card .fl-how{font-size:17px}
+
+/* ---------- small phones (portrait, under ~660px of stage) ---------- */
+.fl-stage.compact .fl-ov{padding:12px}
+.fl-stage.compact .fl-card{gap:8px;padding:16px 14px}
+.fl-stage.compact .fl-card .kicker{font-size:10.5px;letter-spacing:.16em}
+.fl-stage.compact .fl-start .fl-t,.fl-stage.compact .fl-card h3{font-size:28px}
+.fl-stage.compact .fl-pilot-cat{width:70px}
+.fl-stage.compact .fl-pilot-txt b{font-size:26px}
+.fl-stage.compact .fl-pilot-txt b.long{font-size:22px}
+.fl-stage.compact .fl-card .fl-how{font-size:16px;line-height:1.35}
+.fl-stage.compact .fl-card .fl-line,.fl-stage.compact .fl-card .fl-txt{font-size:16px}
+.fl-stage.compact .fl-card .fl-meta,.fl-stage.compact .fl-card .fl-earn{font-size:10.5px}
+.fl-stage.compact .fl-go{min-height:50px}
+.fl-stage.compact .ocard .big-score{font-size:42px}

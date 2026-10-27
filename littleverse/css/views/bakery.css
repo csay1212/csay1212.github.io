@@ -1,0 +1,96 @@
+/* The Cake Tower */
+.bk-wrap{display:grid;place-items:center;padding:12px}
+.bk-stage{border-radius:18px;background:var(--dusk);max-width:100%}
+.bk-canvas{outline:none;cursor:pointer;touch-action:none}
+
+/* ---------- HUD ---------- */
+.bk-hud{text-shadow:0 1px 8px color-mix(in srgb,var(--night) 65%,transparent)}
+.bk-hg{display:flex;align-items:flex-start;gap:clamp(14px,3vw,30px)}
+.bk-st{display:grid;line-height:1.1}
+.bk-st span{font-size:10.5px;letter-spacing:.18em;opacity:.85}
+.bk-st b{font-size:24px}
+.bk-hud .bk-hg:first-child .bk-st:nth-child(2) b{color:var(--rose)}
+.bk-st.r{text-align:right}
+.bk-hud .bk-pause{pointer-events:auto;width:44px;height:44px;margin-top:-2px;background:color-mix(in srgb,var(--night) 55%,transparent)}
+
+/* ---------- overlay cards ---------- */
+.bk-ov{background:color-mix(in srgb,var(--night) 50%,transparent)}
+.bk-card{gap:12px;width:min(460px,100%)}
+.bk-card .bk-k{margin-bottom:-4px}
+.bk-card h3{color:var(--rose)}
+.bk-start .bk-t{font-size:clamp(32px,6vw,44px)}
+.bk-hero{position:relative;width:170px;height:150px;margin:2px auto 0}
+.bk-hero-cake{position:absolute;inset:0;z-index:3;pointer-events:none}
+.bk-hero-cake svg{width:100%;height:100%;display:block;overflow:visible}
+.bk-hero-cat{position:absolute;z-index:4;width:62px;right:-30px;bottom:-4px;transform:rotate(8deg);filter:drop-shadow(0 8px 12px rgba(0,0,0,.45));animation:bkBob 2.8s ease-in-out infinite}
+.bk-hero-cat svg{width:100%;height:auto;display:block}
+.bk-hero-cat{pointer-events:none}
+.bk-hero .peek{z-index:2}
+@keyframes bkBob{50%{transform:translateY(-6px) rotate(4deg)}}
+.bk-card .bk-how{font-size:18px;line-height:1.4;color:var(--paper);opacity:.9}
+.bk-card .bk-txt{font-size:18px;line-height:1.4;color:var(--muted)}
+.bk-keys span{align-self:center}
+.bk-card .bk-meta{font-family:var(--f-mono);font-size:13px;letter-spacing:0;color:var(--gold);font-weight:600}
+.bk-go{min-width:210px}
+
+.bk-score{display:grid;justify-items:center;gap:2px}
+.bk-card .bk-unit{font-family:var(--f-mono);font-size:14.5px;letter-spacing:0;color:var(--muted);font-weight:600}
+.bk-rtxt{display:grid;justify-items:center;gap:10px}
+.bk-card .bk-line{font-size:18px;line-height:1.4;color:var(--paper);font-style:italic}
+.bk-card .bk-earn{display:grid;gap:3px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--gold)}
+.bk-earn b{font-size:15px;font-weight:600;letter-spacing:.08em}
+.bk-earn span{color:var(--muted);font-size:13px;letter-spacing:0;font-weight:600}
+.bk-btns{gap:10px;width:100%;flex-wrap:nowrap}
+.bk-btns .btn{flex:1 1 0;min-width:0;padding:10px 12px;letter-spacing:.1em}
+/* results sit low so the finished cake stays visible above them */
+.bk-res-ov{background:linear-gradient(180deg,color-mix(in srgb,var(--night) 0%,transparent) 0%,color-mix(in srgb,var(--night) 35%,transparent) 45%,color-mix(in srgb,var(--night) 70%,transparent));align-items:end}
+
+/* ---------- short stages (phones in landscape) ---------- */
+.bk-stage.short .bk-ov{padding:10px}
+.bk-stage.short .bk-card{gap:8px;padding:14px 18px;border-radius:16px}
+.bk-stage.short .bk-start{width:min(640px,100%);grid-template-columns:auto minmax(0,1fr);column-gap:26px;text-align:left;justify-items:start;align-items:center;
+  grid-template-areas:"hero k" "hero t" "hero keys" "hero meta" "hero go"}
+.bk-stage.short .bk-start .bk-k{grid-area:k}
+.bk-stage.short .bk-start .bk-t{grid-area:t;font-size:30px}
+.bk-stage.short .bk-start .bk-hero{grid-area:hero;width:136px;height:120px;margin:0 24px 0 0}
+.bk-stage.short .bk-start .bk-hero-cat{width:50px;right:-26px}
+.bk-stage.short .bk-start .bk-how{display:none}
+.bk-stage.short .bk-start .bk-keys{grid-area:keys;justify-content:flex-start}
+.bk-stage.short .bk-start .bk-meta{grid-area:meta}
+.bk-stage.short .bk-start .bk-go{grid-area:go;min-height:46px;padding:10px 22px}
+.bk-stage.short .bk-res{width:min(600px,100%);grid-template-columns:auto minmax(0,1fr);column-gap:22px;grid-template-areas:"k k" "t t" "score txt" "btns btns"}
+.bk-stage.short .bk-res .bk-k{grid-area:k}
+.bk-stage.short .bk-res .bk-t{grid-area:t}
+.bk-stage.short .bk-res .bk-score{grid-area:score}
+.bk-stage.short .bk-res .bk-rtxt{grid-area:txt;justify-items:start;text-align:left;gap:6px}
+.bk-stage.short .bk-res .bk-btns{grid-area:btns}
+.bk-stage.short .bk-card h3{font-size:28px}
+.bk-stage.short .bk-card .bk-line,.bk-stage.short .bk-card .bk-txt{font-size:16px}
+.bk-stage.short .bk-card .bk-meta,.bk-stage.short .bk-card .bk-earn{font-size:11px}
+.bk-stage.short .bk-res-ov{align-items:center;background:color-mix(in srgb,var(--night) 55%,transparent)}
+
+/* ---------- narrow phones ---------- */
+.bk-stage.narrow .ghud{left:10px;right:8px;top:8px}
+.bk-stage.narrow .bk-st b{font-size:21px}
+.bk-stage.narrow .bk-st span{font-size:9.5px;letter-spacing:.14em}
+.bk-stage.narrow .bk-card{padding:22px 16px}
+.bk-stage.narrow .bk-card .bk-how{font-size:17px}
+
+/* ---------- wide stages: results card beside the tower ---------- */
+.bk-stage.side .bk-res-ov{align-items:center;justify-items:end;padding-right:5%;background:linear-gradient(90deg,color-mix(in srgb,var(--night) 0%,transparent) 40%,color-mix(in srgb,var(--night) 55%,transparent))}
+.bk-stage.side.short .bk-res-ov{padding-right:3%}
+.bk-stage.side.short .bk-res{width:min(450px,58%);column-gap:16px}
+.bk-stage.side.short .bk-res .big-score{font-size:42px}
+
+/* ---------- small phones (portrait, under ~660px of stage) ---------- */
+.bk-stage.compact .bk-ov{padding:12px}
+.bk-stage.compact .bk-card{gap:8px;padding:16px 14px}
+.bk-stage.compact .bk-card .kicker{font-size:10.5px;letter-spacing:.16em}
+.bk-stage.compact .bk-start .bk-t,.bk-stage.compact .bk-card h3{font-size:28px}
+.bk-stage.compact .bk-hero{width:128px;height:113px}
+.bk-stage.compact .bk-hero-cat{width:48px;right:-24px}
+.bk-stage.compact .bk-card .bk-how{font-size:16px;line-height:1.35}
+.bk-stage.compact .bk-card .bk-line,.bk-stage.compact .bk-card .bk-txt{font-size:16px}
+.bk-stage.compact .bk-card .bk-meta,.bk-stage.compact .bk-card .bk-earn{font-size:10.5px}
+.bk-stage.compact .bk-go{min-height:50px}
+.bk-stage.compact .ocard .big-score{font-size:42px}

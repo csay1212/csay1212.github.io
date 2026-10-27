@@ -1,0 +1,148 @@
+/* The universe map: a title card, one card for the pilot and passport, then a
+   vertical voyage past every world. Phone first; colors are theme roles.
+   Voyage geometry: every row is [planet lane | card] (mirrored on alternate
+   rows). The route and the flying pilot stay in the lanes and only cross in
+   the gaps between rows, so the rows need real air between them. */
+.map{--lane:150px;--cg:26px;--gap:84px;
+  position:relative;z-index:1;max-width:1040px;margin:0 auto;overflow-x:clip;font-variant-numeric:lining-nums;
+  padding:calc(28px + var(--safe-t)) max(20px,var(--safe-r)) calc(116px + var(--safe-b)) max(20px,var(--safe-l))}
+
+/* ---------- title card ---------- */
+.map-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center;gap:14px;padding:22px 0 6px}
+.mv-pres{font-style:italic;font-size:18px;line-height:1.2;color:var(--muted)}
+.mv-title{display:grid;justify-items:center;line-height:.9;width:100%;font-variant-numeric:lining-nums}
+.mv-the{font-family:var(--f-body);font-style:italic;font-weight:500;font-size:clamp(22px,6vw,34px);letter-spacing:0;color:var(--paper);line-height:1.1}
+.mv-big{display:block;max-width:100%;font-family:var(--f-marquee);font-weight:var(--f-marquee-w,400);font-size:clamp(64px,22vw,128px);color:var(--gold);letter-spacing:.01em;line-height:1;padding-bottom:.04em;text-wrap:balance;overflow-wrap:break-word}
+.map-hero .lede{color:var(--muted);font-style:italic;font-size:clamp(19px,5.2vw,22px);line-height:1.45;max-width:32ch;text-wrap:balance}
+.mv-note{max-width:34ch;font-size:17.5px;line-height:1.5;color:color-mix(in srgb,var(--paper) 82%,transparent);text-wrap:pretty}
+
+/* one card: pilot, tallies, finale, passport */
+.map-hud{display:grid;gap:16px;width:min(100%,380px);margin-top:8px;padding:14px 16px 16px;border-radius:20px;border:1px solid var(--line);background:var(--night-2);
+  font-variant-numeric:lining-nums tabular-nums;text-align:left}
+.mh-pilot{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.pilot{width:58px;flex:none;padding:0;border:0;background:none;filter:drop-shadow(0 8px 12px rgba(0,0,0,.4));border-radius:50%}
+.pilot svg{width:100%;height:auto;display:block}
+.pilot.loop svg{animation:pilotLoop .9s cubic-bezier(.4,0,.2,1)}
+@keyframes pilotLoop{50%{transform:translateY(-20px) rotate(-180deg) scale(.9)}100%{transform:rotate(-360deg)}}
+.mh-who{flex:1;min-width:0;display:grid;gap:2px}
+.mh-who b{font-family:var(--f-hand);font-size:30px;font-weight:700;line-height:1;overflow-wrap:break-word}
+.mh-who small{font-family:var(--f-ui);font-size:13px;font-weight:550;color:var(--muted)}
+.mh-hat{flex:none;display:inline-flex;align-items:center;min-height:36px;padding:0 13px;border-radius:999px;border:1px solid var(--line);font-family:var(--f-ui);font-size:13.5px;font-weight:600;color:var(--paper);text-decoration:none}
+.mh-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.map-hud.two .mh-row{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mh{position:relative;display:grid;justify-items:center;align-content:start;gap:3px;min-height:54px;padding:2px 6px;border:0;background:none;color:var(--paper);line-height:1.15;min-width:0;border-radius:12px}
+.mh + .mh::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
+.mh b{display:flex;align-items:baseline;gap:0;font-family:var(--f-display);font-size:30px;font-weight:600;color:var(--gold);white-space:nowrap;line-height:1}
+.mh b .of{font-family:var(--f-ui);font-size:13px;font-weight:600;color:color-mix(in srgb,var(--paper) 55%,transparent);margin-left:3px}
+.mh > span{font-family:var(--f-ui);font-size:12px;font-weight:550;letter-spacing:0;text-transform:none;color:var(--muted);text-align:center;overflow-wrap:break-word;max-width:100%}
+.mh.bump{animation:bump .5s ease-out}
+.mh-finale{display:grid;gap:8px}
+.mf-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-family:var(--f-ui);font-size:13.5px;font-weight:550;line-height:1.35;color:var(--muted)}
+.mf-row b{flex:none;font-weight:700;font-size:13px;color:var(--gold)}
+.mh-finale i{display:block;height:4px;border-radius:2px;background:color-mix(in srgb,var(--paper) 10%,transparent);overflow:hidden}
+.mh-finale em{display:block;height:100%;transform-origin:0 50%;background:var(--gold)}
+.mh-finale.open .mf-row{color:var(--gold)}
+.passport-btn{width:100%}
+.passport-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+/* ---------- voyage ---------- */
+/* stacking: route 0 · planets 1 · pilot 2 · cards and headings 3 */
+.voyage{position:relative;margin-top:64px;display:grid}
+.voyage > .stop + .stop{margin-top:var(--gap)}
+.voyage > .stop + .sector{margin-top:calc(var(--gap) + 18px)}
+.voyage > .sector + .stop{margin-top:22px}
+.voyage > .sector + .stop.next{margin-top:34px}
+.route{position:absolute;inset:0;pointer-events:none;z-index:0}
+.route svg{position:absolute;left:0;top:0;overflow:visible}
+.route path{fill:none}
+.route .r-glow{display:none}
+.route .r-dash{stroke:color-mix(in srgb,var(--paper) 28%,transparent);stroke-width:2;stroke-dasharray:2 9;stroke-linecap:round}
+.route .r-done{stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+.ship{position:absolute;left:0;top:0;width:50px;z-index:2;pointer-events:none;will-change:transform;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5));transition:transform .08s linear}
+.ship svg{width:100%;height:auto;display:block}
+.ship::after{content:"";position:absolute;left:50%;top:72%;width:4px;height:30px;transform:translateX(-50%);background:linear-gradient(180deg,color-mix(in srgb,var(--paper) 45%,transparent),transparent);border-radius:3px;z-index:-1}
+.ship.flip::after{top:auto;bottom:78%;background:linear-gradient(0deg,color-mix(in srgb,var(--paper) 45%,transparent),transparent)}
+
+/* rows: the planet lane and the card */
+.stop,.sector{display:grid;grid-template-columns:var(--lane) minmax(0,1fr);column-gap:var(--cg);width:min(660px,100%)}
+.stop.r,.sector.r{grid-template-columns:minmax(0,1fr) var(--lane)}
+.stop.l,.sector.l{justify-self:start;margin-left:4%}
+.stop.r,.sector.r{justify-self:end;margin-right:4%}
+
+/* sector headings sit in the card column, so the lane beside them stays clear */
+.sector{position:relative;z-index:3}
+.sec-txt{display:grid;gap:4px;min-width:0;padding:0 4px}
+.sector.l .sec-txt{grid-column:2}
+.sector.r .sec-txt{grid-column:1;grid-row:1}
+.sector h2{font-size:clamp(30px,8vw,42px);line-height:1.04;color:var(--paper);overflow-wrap:break-word}
+.sector p{font-style:italic;font-size:17px;line-height:1.38;color:var(--muted);text-wrap:balance}
+
+.stop{position:relative;align-items:center;text-decoration:none;color:var(--paper);padding:0;border-radius:20px;transition:transform .25s;-webkit-tap-highlight-color:transparent;cursor:pointer;font:inherit;text-align:left}
+.stop:active{transform:scale(.985)}
+.stop.r .planet{order:2}
+.planet{width:var(--lane);height:var(--lane);position:relative;z-index:1;transition:transform .35s cubic-bezier(.3,1.5,.5,1);flex:none}
+.planet svg{width:100%;height:100%;overflow:visible;display:block}
+.stop:hover .planet,.stop:focus-visible .planet{transform:scale(1.06) rotate(-4deg)}
+
+.stop-info{position:relative;z-index:3;display:grid;gap:7px;min-width:0;padding:16px 17px 17px;border-radius:18px;text-align:left;
+  background:var(--night-2);border:1px solid var(--line);transition:border-color .25s}
+.stop:hover .stop-info,.stop:focus-visible .stop-info{border-color:var(--line-2)}
+.stop-info h3{font-size:clamp(25px,6.8vw,30px);line-height:1.05;color:var(--paper);text-wrap:balance;overflow-wrap:break-word}
+.stop-info p{font-size:16.5px;line-height:1.42;color:var(--muted);text-wrap:pretty}
+.stop-k{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-family:var(--f-ui);font-size:12.5px;font-weight:600;letter-spacing:0;line-height:1.4;color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.stop-k > span{min-width:0;text-wrap:balance}
+.stop-s{color:var(--gold)}
+.next-tag{justify-self:start;font-family:var(--f-ui);font-size:11.5px;font-weight:700;letter-spacing:.01em;line-height:1;text-transform:none;color:var(--night);background:var(--gold);padding:5px 9px;border-radius:999px;margin-bottom:2px}
+.stop.next .stop-info{border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+.stop.got .stop-k{color:var(--gold)}
+.mini-stamp{position:absolute;top:-12px;right:-10px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:2px double var(--gold);color:var(--gold);
+  background:var(--night);transform:rotate(-14deg)}
+.mini-stamp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.stop.next .planet::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--gold);opacity:.6;animation:ring 2.4s ease-out infinite}
+@keyframes ring{from{transform:scale(.88);opacity:.8}to{transform:scale(1.2);opacity:0}}
+.stop.is-locked{cursor:not-allowed}
+.planet.locked svg{filter:grayscale(.9) brightness(.55)}
+.lockbadge{position:absolute;inset:0;display:grid;place-items:center}
+.lockbadge svg{width:34px;height:34px;fill:none;stroke:var(--paper);stroke-width:1.8;filter:drop-shadow(0 2px 6px #000)}
+.stop.obs .stop-info{border-style:dashed;border-color:var(--line-2)}
+
+/* planet details that move */
+.planet .pl-prop{transform-box:fill-box;transform-origin:center;animation:propSpin .5s linear infinite}
+.stop:hover .planet .pl-prop{animation-duration:.15s}
+.planet .pl-orbit{transform-origin:80px 80px;animation:spin 14s linear infinite}
+.planet .pl-spin{transform-origin:80px 80px;animation:spin 9s linear infinite}
+.planet .pl-flame{transform-box:fill-box;transform-origin:50% 100%;animation:mapFlick .4s ease-in-out infinite alternate}
+.planet .pl-tw{animation:tw 2.4s ease-in-out infinite}
+.planet .pl-meteors path{animation:met 1.8s linear infinite;stroke-dasharray:50 50;stroke-dashoffset:50}
+.planet .pl-burst{transform-origin:80px 80px;animation:burstP 2.2s ease-in-out infinite}
+.planet .pl-notes circle{animation:tw 1.6s ease-in-out infinite}
+.planet .pl-notes circle:nth-child(2){animation-delay:-.3s}.planet .pl-notes circle:nth-child(3){animation-delay:-.6s}.planet .pl-notes circle:nth-child(4){animation-delay:-.9s}.planet .pl-notes circle:nth-child(5){animation-delay:-1.2s}
+@keyframes mapFlick{from{transform:scale(1,1) rotate(-4deg)}to{transform:scale(.88,1.14) rotate(4deg)}}
+@keyframes tw{50%{opacity:.25}}
+@keyframes met{to{stroke-dashoffset:-50}}
+@keyframes burstP{0%,100%{transform:scale(.85);opacity:.8}50%{transform:scale(1.06);opacity:1}}
+
+.map-foot{display:grid;justify-items:center;gap:12px;text-align:center;margin-top:80px}
+.map-foot .btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6}
+.map-foot .fine{max-width:40ch;text-wrap:balance;font-size:13px;color:var(--muted)}
+.map-foot .mf-end{font-family:var(--f-display);font-weight:600;font-size:26px;color:var(--paper)}
+
+@media (max-width:640px){
+  .map{--lane:96px;--cg:14px;--gap:74px}
+  .stop,.sector{width:100%}
+  .stop.l,.sector.l{margin-left:0}.stop.r,.sector.r{margin-right:0}
+  .ship{width:44px}
+}
+@media (max-width:380px){
+  .map{--lane:86px;--cg:12px;--gap:72px;padding-left:max(16px,var(--safe-l));padding-right:max(16px,var(--safe-r))}
+  .stop-info{padding:15px 15px 16px}
+  .stop-info h3{font-size:25px}
+  .stop-info p{font-size:16px}
+  .ship{width:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ship{transition:none}
+}
+
+/* planets out of view hold still (map.js toggles .idle) */
+.stop.idle .planet *,.stop.idle .planet::before{animation-play-state:paused!important}
